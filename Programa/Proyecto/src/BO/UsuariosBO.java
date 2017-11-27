@@ -8,6 +8,15 @@ public class UsuariosBO {
     private int id_user;
     private String Usuario;
     private String passw;
+    private int idEmp;
+
+    public int getIdEmp() {
+        return idEmp;
+    }
+
+    public void setIdEmp(int idEmp) {
+        this.idEmp = idEmp;
+    }
     private int tipoUser;
 
     public int getId_user() {

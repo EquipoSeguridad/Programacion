@@ -1,11 +1,16 @@
 package DAO;
 
+import BO.PerfilesBO;
 import BO.UsuariosBO;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,6 +18,7 @@ import java.sql.Types;
  */
 public class UsuariosDAO {
     private UsuariosBO objP = new UsuariosBO();
+    private PerfilesBO objPerf = new PerfilesBO();
     private Conexion con;
     private Connection conn;
     
@@ -66,4 +72,42 @@ public class UsuariosDAO {
        }
        return resultado;
    }
+   
+   public ArrayList<PerfilesBO> consultarPerfiles() {
+       ArrayList<PerfilesBO> perfilesList=new ArrayList<>();
+       
+        PreparedStatement statement=null;
+        ResultSet result=null;
+
+        PerfilesBO perfilBo;
+        
+        String consulta="Select idPerfil, nombrePerfil from perfilusuario;";
+
+        try {
+         if (conn!=null) {
+          statement=conn.prepareStatement(consulta);    
+          result=statement.executeQuery();
+
+          while(result.next()==true){
+           perfilBo=new PerfilesBO();
+           perfilBo.setIdPerfil(result.getInt("idPerfil"));
+           perfilBo.setNombrePerfil(result.getString("nombrePerfil"));
+
+           perfilesList.add(perfilBo);
+          }  
+         }
+        } catch (SQLException e) {
+         System.out.println("Error en la consulta de perfiles: "+e.getMessage());
+        }finally{
+         try {
+          conn.close();
+          
+         } catch (SQLException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+         }
+        }
+        return perfilesList;
+       }
 }
+
