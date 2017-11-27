@@ -2,26 +2,23 @@ package DAO;
 
 import BO.PerfilesBO;
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
 /**
  *
  * @author MANUEL
  */
 public class PerfilesDAO {
-    private PerfilesBO objP = new PerfilesBO();
+    private PerfilesBO perfil;
     private Conexion con;
-    private Connection conn;
     
     public PerfilesDAO() {
+        perfil = new PerfilesBO();
         try{
             con = new Conexion();
-            conn = con.getConnection();
-        }catch(Exception e) {
+        }catch(SQLException e) {
             e.printStackTrace();
         }
     }
@@ -32,18 +29,16 @@ public class PerfilesDAO {
         try{
             String sql = "";
             if(opcion == 0) {
-                sql = "Select * from perfilusuario;";
+                sql = "SELECT * FROM Perfiles;";
             }else {
-                sql = "Select * from perfilusuario where nombrePerfil Like '"+nombrePerf+"%';";
+                sql = "SELECT * FROM Perfiles WHERE NombrePerfil LIKE '"+nombrePerf+"%';";
             }
-           
-           PreparedStatement pa = con.getConnection().prepareStatement(sql);
-           result = pa.executeQuery();
-           return result;
+            PreparedStatement pa = con.getConnection().prepareStatement(sql);
+            result = pa.executeQuery();
         }catch(SQLException e) {
             System.out.println(e);
-            return result;
         }
+        return result;
     }
     
    public boolean AgregarPerfil(PerfilesBO objPBO)
@@ -51,17 +46,17 @@ public class PerfilesDAO {
        boolean resultado = false;
        try {            
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
-            CallableStatement proc = conn.prepareCall("CALL sp_AgregarPerfil(?);");
+            CallableStatement proc = con.getConnection().prepareCall("CALL sp_AgregarPerfil(?);");
             //se cargan los parametros de entrada
-            proc.setString("nombreP", objPBO.getNombrePerfil());//Tipo String
+            proc.setString("NombrePerfil", objPBO.getNombrePerfil());//Tipo String
             // Se ejecuta el procedimiento almacenado
             proc.execute();            
             // devuelve el valor del parametro de salida del procedimiento
             resultado = true;
         } 
-       catch (Exception e) {   
+       catch (SQLException e) {   
            resultado = false;
-            System.out.println(e);
+           System.out.println(e);
        }
        return resultado;
    }
@@ -71,16 +66,16 @@ public class PerfilesDAO {
        boolean resultado = false;
        try {            
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
-            CallableStatement proc = conn.prepareCall("CALL sp_ModificarPerfil(?,?);");
+            CallableStatement proc = con.getConnection().prepareCall("CALL sp_ModificarPerfil(?,?);");
             //se cargan los parametros de entrada
-            proc.setInt("idPerf", objPBO.getIdPerfil());
-            proc.setString("nombreP", objPBO.getNombrePerfil());//Tipo String
+            proc.setInt("IdPerfiles", objPBO.getIdPerfil());
+            proc.setString("NombrePerfil", objPBO.getNombrePerfil());//Tipo String
             // Se ejecuta el procedimiento almacenado
             proc.execute();            
             // devuelve el valor del parametro de salida del procedimiento
             resultado = true;
         } 
-       catch (Exception e) {   
+       catch (SQLException e) {   
            resultado = false;
             System.out.println(e);
        }
@@ -92,15 +87,15 @@ public class PerfilesDAO {
        boolean resultado = false;
        try {            
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
-            CallableStatement proc = conn.prepareCall("CALL sp_EliminarPerfil(?);");
+            CallableStatement proc = con.getConnection().prepareCall("CALL sp_EliminarPerfil(?);");
             //se cargan los parametros de entrada
-            proc.setInt("idPerf", objPBO.getIdPerfil());
+            proc.setInt("IdPerfiles", objPBO.getIdPerfil());
             // Se ejecuta el procedimiento almacenado
             proc.execute();            
             // devuelve el valor del parametro de salida del procedimiento
             resultado = true;
         } 
-       catch (Exception e) {   
+       catch (SQLException e) {   
            resultado = false;
             System.out.println(e);
        }
