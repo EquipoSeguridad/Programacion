@@ -32,9 +32,9 @@ public class PerfilesDAO {
         try{
             String sql = "";
             if(opcion == 0) {
-                sql = "Select * from perfilusuario";
+                sql = "Select * from perfilusuario;";
             }else {
-                sql = "Select * from perfilusuario where nombrePerfil='"+nombrePerf+"';";
+                sql = "Select * from perfilusuario where nombrePerfil Like '"+nombrePerf+"%';";
             }
            
            PreparedStatement pa = con.getConnection().prepareStatement(sql);
@@ -46,14 +46,55 @@ public class PerfilesDAO {
         }
     }
     
-   public boolean AgregarPerfil(String perfil)
+   public boolean AgregarPerfil(PerfilesBO objPBO)
    {
        boolean resultado = false;
        try {            
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
             CallableStatement proc = conn.prepareCall("CALL sp_AgregarPerfil(?);");
             //se cargan los parametros de entrada
-            proc.setString("nombreP", perfil);//Tipo String
+            proc.setString("nombreP", objPBO.getNombrePerfil());//Tipo String
+            // Se ejecuta el procedimiento almacenado
+            proc.execute();            
+            // devuelve el valor del parametro de salida del procedimiento
+            resultado = true;
+        } 
+       catch (Exception e) {   
+           resultado = false;
+            System.out.println(e);
+       }
+       return resultado;
+   }
+   
+   public boolean ModificarPerfil(PerfilesBO objPBO)
+   {
+       boolean resultado = false;
+       try {            
+            // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
+            CallableStatement proc = conn.prepareCall("CALL sp_ModificarPerfil(?,?);");
+            //se cargan los parametros de entrada
+            proc.setInt("idPerf", objPBO.getIdPerfil());
+            proc.setString("nombreP", objPBO.getNombrePerfil());//Tipo String
+            // Se ejecuta el procedimiento almacenado
+            proc.execute();            
+            // devuelve el valor del parametro de salida del procedimiento
+            resultado = true;
+        } 
+       catch (Exception e) {   
+           resultado = false;
+            System.out.println(e);
+       }
+       return resultado;
+   }
+   
+   public boolean EliminarPerfil(PerfilesBO objPBO)
+   {
+       boolean resultado = false;
+       try {            
+            // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
+            CallableStatement proc = conn.prepareCall("CALL sp_EliminarPerfil(?);");
+            //se cargan los parametros de entrada
+            proc.setInt("idPerf", objPBO.getIdPerfil());
             // Se ejecuta el procedimiento almacenado
             proc.execute();            
             // devuelve el valor del parametro de salida del procedimiento

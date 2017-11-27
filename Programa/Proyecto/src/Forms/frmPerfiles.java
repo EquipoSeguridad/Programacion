@@ -6,6 +6,15 @@
 
 package Forms;
 
+import BO.PerfilesBO;
+import DAO.PerfilesDAO;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author MANUEL
@@ -16,6 +25,8 @@ public class frmPerfiles extends javax.swing.JFrame {
     public frmPerfiles() {
         initComponents();
         lblCodigo.setVisible(false);//Oculta el label del código
+        btnCancelar.setEnabled(false);//Bloquea el botón de cancelar al inicio
+        Listado("", 0);//Mustra los perfiles agregados
     }
 
     /** This method is called from within the constructor to
@@ -27,19 +38,39 @@ public class frmPerfiles extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuModificar = new javax.swing.JMenuItem();
+        JMenuEliminar = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTablePerfiles = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         txtNombrePerfil = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
         lblCodigo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jMenuModificar.setText("Modificar");
+        jMenuModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuModificarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuModificar);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        JMenuEliminar.setText("Eliminar");
+        JMenuEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JMenuEliminarActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(JMenuEliminar);
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Perfiles");
+
+        jTablePerfiles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -50,17 +81,38 @@ public class frmPerfiles extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jTablePerfiles.setComponentPopupMenu(jPopupMenu1);
+        jScrollPane1.setViewportView(jTablePerfiles);
 
         jLabel2.setText("Nombre perfil:");
 
-        btnAgregar.setText("Agregar");
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
-        btnModificar.setText("Modificar");
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
-        btnEliminar.setText("Eliminar");
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,13 +123,13 @@ public class frmPerfiles extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnAgregar)
+                        .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnModificar)
+                        .addComponent(btnCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminar))
+                        .addComponent(btnLimpiar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,10 +151,10 @@ public class frmPerfiles extends javax.swing.JFrame {
                     .addComponent(txtNombrePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
-                    .addComponent(btnModificar)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnCancelar)
                     .addComponent(btnBuscar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnLimpiar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -110,6 +162,86 @@ public class frmPerfiles extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        if(txtNombrePerfil.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Error! porfavor ingrese el nomnre del perfil");
+        }else {
+            if(editar == false) {
+                if(Guardar()) {
+                    JOptionPane.showMessageDialog(null, "Registro agregado correctamente!!!");
+                    Listado("", 0);//Actualiza los registros que se muestran
+                    resetearEstadoComponentes();
+                }else {
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al agregar el perfil!");
+                }
+            }else {
+                if(Modificar()) {
+                    JOptionPane.showMessageDialog(null, "Registro modificado correctamente!!!");
+                    Listado("", 0);//Actualiza los registros que se muestran
+                    resetearEstadoComponentes();
+                }else {
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al modificar el perfil!");
+                }
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void jMenuModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuModificarActionPerformed
+        // TODO add your handling code here:
+        int fila = jTablePerfiles.getSelectedRow();//Obtiene el indice de la fila
+        if(fila >=0) {//Verifica que se haya seleccionado una fila
+            editar = true;//Activa la opcion de editar
+            btnCancelar.setEnabled(true);//Activa el boton de cancelar
+            btnBuscar.setEnabled(false);//Bloquea el boton de busar
+            lblCodigo.setText(jTablePerfiles.getValueAt(fila, 0).toString());//obtiene el código del perfil
+            txtNombrePerfil.setText(jTablePerfiles.getValueAt(fila, 1).toString());//Muestra el nombre del perfil seleccionado
+        }else {
+            JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
+        }
+    }//GEN-LAST:event_jMenuModificarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        resetearEstadoComponentes();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        resetearEstadoComponentes();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void JMenuEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMenuEliminarActionPerformed
+        // TODO add your handling code here:
+        try {
+            int fila = jTablePerfiles.getSelectedRow();
+            if(fila >=0) {
+                
+                int resp = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar el registro seleccionado?");
+                if(JOptionPane.OK_OPTION == resp) {
+                    if(Eliminar(Integer.parseInt(jTablePerfiles.getValueAt(fila, 0).toString()))) {//Obtiene el id para eliminar
+                        JOptionPane.showMessageDialog(null, "Datos eliminados correctamente!!!");
+                    }
+                }
+            }else {
+                JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
+            }
+            Listado("", 0);
+        }catch(Exception err) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el registro...");
+        }
+    }//GEN-LAST:event_JMenuEliminarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        if(txtNombrePerfil.getText().equals("")) {
+            Listado("", 0);//Trae todos los registros
+        }else {
+            objperfBO.setNombrePerfil(txtNombrePerfil.getText());
+            Listado(objperfBO.getNombrePerfil(), 1);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -145,17 +277,99 @@ public class frmPerfiles extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    public void resetearEstadoComponentes() {
+        btnBuscar.setEnabled(true);
+        btnCancelar.setEnabled(false);
+        btnGuardar.setEnabled(true);
+        lblCodigo.setText("");
+        txtNombrePerfil.setText("");
+    }
+    
+    public void Listado(String perfil, int codigo) {
+        ResultSet result;
+        try{
+            result = objPerfDao.Lista(perfil, codigo);
+            DefaultTableModel modelo = new DefaultTableModel();
+            this.jTablePerfiles.setModel(modelo);
+            
+            java.sql.ResultSetMetaData mtDatos = result.getMetaData();
+            int numColumn = mtDatos.getColumnCount();
+            Object[] nomCampos = new Object[numColumn];
+            for(int i = 0; i < numColumn; i++) {
+                nomCampos[i] = mtDatos.getColumnLabel(i+1);
+            }
+            modelo.setColumnIdentifiers(nomCampos);
+            while(result.next()) {
+                Object[] fila = new Object[numColumn];
+                for(int j = 0; j < numColumn; j++) {
+                    fila[j] = result.getObject(j+1);
+                }
+                modelo.addRow(fila);
+            }
+            result.close();
+        }catch(Exception err) {
+            System.out.println("Error! no hay nada en la base de datos...");
+        }
+    }
+    
+    public boolean Guardar() {
+        try{
+            objperfBO.setNombrePerfil(txtNombrePerfil.getText());
+            
+            objPerfDao.AgregarPerfil(objperfBO);
+            return true;
+        }catch(Exception e) {
+            //e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error! Puede que el código ya esté registrado...");
+            return false;
+        }
+    }
+    
+    public boolean Modificar() {
+        try{
+            objperfBO.setIdPerfil(Integer.parseInt(lblCodigo.getText()));
+            objperfBO.setNombrePerfil(txtNombrePerfil.getText());
+            
+            objPerfDao.ModificarPerfil(objperfBO);
+            return true;
+        }catch(Exception e) {
+            //e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error!...");
+            return false;
+        }
+    }
+    public boolean Eliminar(int codPerfil) {
+        try{
+            objperfBO.setIdPerfil(codPerfil);
+            
+            objPerfDao.EliminarPerfil(objperfBO);
+            return true;
+        }catch(Exception e) {
+            //e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error!...");
+            return false;
+        }
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
+    private javax.swing.JMenuItem JMenuEliminar;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenuItem jMenuModificar;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTablePerfiles;
     private javax.swing.JLabel lblCodigo;
     private javax.swing.JTextField txtNombrePerfil;
     // End of variables declaration//GEN-END:variables
 
+    //Variables para la conexión a la base de datos
+    PerfilesDAO objPerfDao = new PerfilesDAO();
+    PerfilesBO objperfBO = new PerfilesBO();
+    private boolean editar = false;
 }

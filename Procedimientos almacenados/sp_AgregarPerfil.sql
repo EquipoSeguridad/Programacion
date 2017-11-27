@@ -1,7 +1,7 @@
 ﻿DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `ejemplo`.`sp_AgregarPerfil` $$
-CREATE PROCEDURE `ejemplo`.`sp_AgregarPerfil` (In nombreP varchar(10))
+CREATE PROCEDURE `ejemplo`.`sp_AgregarPerfil` (In nombreP varchar(50))
 BEGIN
 Insert into perfilusuario(nombrePerfil) values(nombreP);
 END $$
@@ -20,4 +20,25 @@ END $$
 
 DELIMITER;
 
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `ejemplo`.`sp_ModificarPerfil` $$
+CREATE PROCEDURE `ejemplo`.`sp_ModificarPerfil` (In idPerf int, In nombreP varchar(10))
+BEGIN
+Update perfilusuario SET nombrePerfil=nombreP Where idPerfil = idPerf;
+END $$
+
+DELIMITER;
+
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `ejemplo`.`sp_EliminarPerfil` $$
+CREATE PROCEDURE `ejemplo`.`sp_EliminarPerfil` (In idPerf int)
+BEGIN
+Delete from perfilusuario where idPerfil=idPerf;
+END $$
+
+DELIMITER;
 

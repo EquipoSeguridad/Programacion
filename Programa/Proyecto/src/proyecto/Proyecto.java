@@ -21,8 +21,8 @@ public class Proyecto {
         String resp = userDAO.BuscarPerfil(1);
         System.out.println(resp);
         
-        boolean respb = perfDAO.AgregarPerfil("Maestro");
-        System.out.println("" + respb);
+        /*boolean respb = perfDAO.AgregarPerfil("Maestro");
+        System.out.println("" + respb);*/
     }
     
 }
