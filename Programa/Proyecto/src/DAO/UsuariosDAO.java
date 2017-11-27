@@ -14,14 +14,13 @@ import java.util.ArrayList;
  * @author MANUEL
  */
 public class UsuariosDAO {
-
-    private UsuariosBO usuario;
-    private PerfilesBO perfil;
+    //private UsuariosBO usuario;
+    //private PerfilesBO perfil;
     private Conexion con;
 
     public UsuariosDAO() {
-        usuario = new UsuariosBO();
-        perfil = new PerfilesBO();
+        //usuario = new UsuariosBO();
+        //perfil = new PerfilesBO();
         try {
             con = new Conexion();
         } catch (SQLException e) {

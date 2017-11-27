@@ -11,11 +11,11 @@ import java.sql.SQLException;
  * @author MANUEL
  */
 public class PerfilesDAO {
-    private PerfilesBO perfil;
+    //private PerfilesBO perfil;
     private Conexion con;
     
     public PerfilesDAO() {
-        perfil = new PerfilesBO();
+        //perfil = new PerfilesBO();
         try{
             con = new Conexion();
         }catch(SQLException e) {

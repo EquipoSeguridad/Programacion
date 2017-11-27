@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * @author MANUEL
  */
 public class Conexion {
-    static String usuario="root";
+    static String usuario = "root";
     static String pass = "12345";
     static String Db = "erp";
     static String url = "jdbc:mysql://localhost/" + Db;
