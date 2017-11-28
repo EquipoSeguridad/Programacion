@@ -1,6 +1,9 @@
 package BO;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import java.security.MessageDigest;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  *

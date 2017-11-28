@@ -21,4 +21,4 @@ select * from usuarios where IdPerfiles=1 or NombreUsuario Like 'A%' or Hashcont
 Insert into usuarios(IdPerfiles, NombreUsuario, Hashcontra, Clave) values (1, 'AndV90', 'sdbajsb717', 1);
 
 
-select Clave, Nombre, Concat(ApellidoPaterno, ' ', ApellidoMaterno), RFC, Puesto, Departamento, Telefono, Correo from personal;
+select Clave, Nombre, Concat(ApellidoPaterno, ' ', ApellidoMaterno) As 'Apellidos' , RFC, Puesto, Departamento, Telefono, Correo from personal;

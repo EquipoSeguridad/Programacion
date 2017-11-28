@@ -111,7 +111,7 @@ public class UsuariosDAO {
             if(opcion == 0) {
                 sql = "SELECT IdUsuarios, NombreUsuario,  Hashcontra, IdPerfiles, Clave FROM usuarios;";
             }else {
-                sql = "select * from usuarios where IdPerfiles="+ idPerfil+" or NombreUsuario Like '"+ nombreUsu +"%' or Hashcontra Like '"+ passw +"%' or Clave ="+ idPers+";";
+                sql = "select * from usuarios where IdPerfiles="+ idPerfil+" or NombreUsuario Like '"+ nombreUsu +"%' or Clave ="+ idPers+";";
             }
             PreparedStatement pa = con.getConnection().prepareStatement(sql);
             result = pa.executeQuery();
@@ -149,12 +149,12 @@ public class UsuariosDAO {
        boolean resultado = false;
        try {            
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
-            CallableStatement proc = con.getConnection().prepareCall("CALL sp_ModificarUsuario(?,?,?,?,?);");
+            CallableStatement proc = con.getConnection().prepareCall("CALL sp_ModificarUsuario(?,?,?,?);");
             //se cargan los parametros de entrada
             proc.setInt("_IdUsuarios", obUPBO.getId_user());
             proc.setInt("_IdPerfiles", obUPBO.getTipoUser());//Tipo String
             proc.setString("_NombreUsuario", obUPBO.getUsuario());//Tipo String
-            proc.setString("_HashContra", obUPBO.getPassw());//Tipo String
+            //proc.setString("_HashContra", obUPBO.getPassw());//Tipo String
             proc.setString("_Clave", obUPBO.getClaveEmp());//Tipo String
             // Se ejecuta el procedimiento almacenado
             proc.execute();            
@@ -187,4 +187,23 @@ public class UsuariosDAO {
        }
        return resultado;
    }
+    
+   public String buscarEmp(int claveEmp) {
+        String resultado = "";
+        try {
+            // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
+            CallableStatement proc = con.getConnection().prepareCall("CALL sp_buscarNombreEmp(?,?);");
+            //se cargan los parametros de entrada
+            proc.setInt("_Clave", claveEmp);//Tipo String
+            // parametros de salida
+            proc.registerOutParameter("_Nombre", Types.VARCHAR);//Tipo String
+            // Se ejecuta el procedimiento almacenado
+            proc.execute();
+            // devuelve el valor del parametro de salida del procedimiento
+            resultado = proc.getString("_Nombre");
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return resultado;
+    }
 }

@@ -85,9 +85,9 @@ DELIMITER;
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `erp`.`sp_ModificarUsuario` $$
-CREATE PROCEDURE `erp`.`sp_ModificarUsuario` (In _IdUsuarios int, In _IdPerfiles int, In _NombreUsuario varchar(50), In _HashContra varchar(50), In _Clave varchar(10))
+CREATE PROCEDURE `erp`.`sp_ModificarUsuario` (In _IdUsuarios int, In _IdPerfiles int, In _NombreUsuario varchar(50), In _Clave varchar(10))
 BEGIN
-Update usuarios SET IdPerfiles=_IdPerfiles, NombreUsuario=_NombreUsuario, Hashcontra=_HashContra, Clave= _Clave Where IdUsuarios = _IdUsuarios;
+Update usuarios SET IdPerfiles=_IdPerfiles, NombreUsuario=_NombreUsuario, Clave= _Clave Where IdUsuarios = _IdUsuarios;
 END $$
 
 DELIMITER;
@@ -103,3 +103,26 @@ Delete from usuarios where IdUsuarios=_IdUsuarios;
 END $$
 
 DELIMITER;
+
+
+
+#Procedimiento para buscar nombre empleado
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `erp`.`sp_buscarNombreEmp` $$
+CREATE PROCEDURE `erp`.`sp_buscarNombreEmp` (In _Clave int, Out _Nombre varchar(50))
+BEGIN
+SET _Nombre = null;
+  IF ( EXISTS( SELECT Nombre FROM personal WHERE Clave=_Clave))
+  THEN SET _Nombre = (SELECT Nombre FROM personal WHERE Clave=_Clave);
+END IF;
+END $$
+
+DELIMITER;
+
+
+
+
+
+
+
