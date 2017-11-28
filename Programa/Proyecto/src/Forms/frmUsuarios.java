@@ -8,6 +8,7 @@ package Forms;
 import BO.PerfilesBO;
 import DAO.UsuariosDAO;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,7 +21,7 @@ public class frmUsuarios extends javax.swing.JFrame {
      */
     public frmUsuarios() {
         initComponents();
-        consultarPersonas();//Muestra los perfiles en el combobox
+        mostrarPerfiles();//Muestra los perfiles en el combobox
     }
 
     /**
@@ -41,8 +42,10 @@ public class frmUsuarios extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         JCmbPerfiles = new javax.swing.JComboBox<>();
         btnBuscarEmp = new javax.swing.JButton();
+        lblCodPerf = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Usuarios");
         setResizable(false);
 
         jLabel1.setText("Empleado:");
@@ -54,6 +57,11 @@ public class frmUsuarios extends javax.swing.JFrame {
         jLabel4.setText("Perfil:");
 
         JCmbPerfiles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        JCmbPerfiles.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                JCmbPerfilesItemStateChanged(evt);
+            }
+        });
 
         btnBuscarEmp.setText("Buscar empleado");
 
@@ -75,8 +83,13 @@ public class frmUsuarios extends javax.swing.JFrame {
                             .addComponent(txtContrasena, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtusuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                             .addComponent(txtEmpleado, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscarEmp))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnBuscarEmp))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addComponent(lblCodPerf))))
                     .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(142, Short.MAX_VALUE))
         );
@@ -90,8 +103,13 @@ public class frmUsuarios extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBuscarEmp))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(lblCodPerf))))
                     .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -109,6 +127,15 @@ public class frmUsuarios extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void JCmbPerfilesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JCmbPerfilesItemStateChanged
+        // TODO add your handling code here:
+        int select = JCmbPerfiles.getSelectedIndex();
+        if(cont > 0) {
+            lblCodPerf.setText("" + idsPerf[select]);
+        }
+        cont++;
+    }//GEN-LAST:event_JCmbPerfilesItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -145,13 +172,13 @@ public class frmUsuarios extends javax.swing.JFrame {
         });
     }
     
-    private void consultarPersonas() {
+    private void mostrarPerfiles() {
         JCmbPerfiles.removeAllItems();
-        UsuariosDAO usuarioDao = new UsuariosDAO();
-        ArrayList < PerfilesBO > listaPerfiles = usuarioDao.consultarPerfiles();
- 
+        idsPerf = new int[listaPerfiles.size()];
         for (int i = 0; i < listaPerfiles.size(); i++) {
             JCmbPerfiles.addItem(listaPerfiles.get(i).getIdPerfil()+ " - " + listaPerfiles.get(i).getNombrePerfil());
+            idsPerf[i] = listaPerfiles.get(i).getIdPerfil();
+            System.out.println(idsPerf[i]);
         }
     }
 
@@ -162,8 +189,15 @@ public class frmUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel lblCodPerf;
     private javax.swing.JTextField txtContrasena;
     private javax.swing.JTextField txtEmpleado;
     private javax.swing.JTextField txtusuario;
     // End of variables declaration//GEN-END:variables
+    
+    //Variables
+    UsuariosDAO usuarioDao = new UsuariosDAO();
+    int[] idsPerf;
+    ArrayList < PerfilesBO > listaPerfiles = usuarioDao.consultarPerfiles();
+    int cont = 0;
 }
