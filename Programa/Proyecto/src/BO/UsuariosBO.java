@@ -1,5 +1,7 @@
 package BO;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 /**
  *
  * @author MANUEL
@@ -8,14 +10,14 @@ public class UsuariosBO {
     private int id_user;
     private String Usuario;
     private String passw;
-    private int idEmp;
+    private String claveEmp;
 
-    public int getIdEmp() {
-        return idEmp;
+    public String getClaveEmp() {
+        return claveEmp;
     }
 
-    public void setIdEmp(int idEmp) {
-        this.idEmp = idEmp;
+    public void setClaveEmp(String claveEmp) {
+        this.claveEmp = claveEmp;
     }
     private int tipoUser;
 
@@ -51,5 +53,8 @@ public class UsuariosBO {
         this.tipoUser = tipoUser;
     }
     
-    
+    public String encriptarContrasena(String pasw) {
+        String passwSHA=DigestUtils.sha1Hex(pasw);
+        return passwSHA;
+    }
 }

@@ -124,7 +124,7 @@ public class frmConsultarPersonal extends javax.swing.JFrame {
         frmUsuarios objfrmPerf = new frmUsuarios();
         if(fila >=0) {//Verifica que se haya seleccionado una fila
             objfrmPerf.txtEmpleado.setText(JtablePersonal.getValueAt(fila, 1).toString());
-            objfrmPerf.lblCodEmpleado.setText(JtablePersonal.getValueAt(fila, 0).toString());
+            objfrmPerf.lblClave.setText(JtablePersonal.getValueAt(fila, 0).toString());
             objfrmPerf.setVisible(true);
             this.setVisible(false);
         }else {

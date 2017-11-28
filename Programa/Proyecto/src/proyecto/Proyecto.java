@@ -1,5 +1,6 @@
 package proyecto;
 
+import BO.UsuariosBO;
 import DAO.PerfilesDAO;
 import DAO.UsuariosDAO;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -12,8 +13,8 @@ public class Proyecto {
 
     public static void main(String[] args) {
         // TODO code application logic here
-        UsuariosDAO userDAO;
-        userDAO = new UsuariosDAO();
+        UsuariosBO userDAO;
+        userDAO = new UsuariosBO();
         /*PerfilesDAO perfDAO = new PerfilesDAO();
         
         int respu = userDAO.ValidarUsuario("Mau97", "12345");
@@ -29,7 +30,7 @@ public class Proyecto {
         /*String textoSinEncriptar="sergio"; 
         String textoEncriptadoConSHA=DigestUtils.sha1Hex(textoSinEncriptar); 
         System.out.println("Texto Encriptado con SHA: "+textoEncriptadoConSHA);*/
-        System.out.println(userDAO.encriptarContrasena("Sergio"));
+        System.out.println(userDAO.encriptarContrasena("AlbertoEmmanuelCamposUC79"));
     }
     
 }

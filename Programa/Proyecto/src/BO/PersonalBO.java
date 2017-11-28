@@ -5,7 +5,7 @@ package BO;
  * @author MANUEL
  */
 public class PersonalBO {
-    private int Clave;
+    private String Clave;
     private String Nombre;
     private String ApellidoPaterno;
     private String ApellidoMaterno;
@@ -38,11 +38,11 @@ public class PersonalBO {
     private int EstatusID;
     private int JornadaID;
 
-    public int getClave() {
+    public String getClave() {
         return Clave;
     }
 
-    public void setClave(int Clave) {
+    public void setClave(String Clave) {
         this.Clave = Clave;
     }
 

@@ -6,6 +6,7 @@
 package Forms;
 
 import BO.PerfilesBO;
+import BO.UsuariosBO;
 import DAO.UsuariosDAO;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -25,18 +26,14 @@ public final class frmUsuarios extends javax.swing.JFrame {
      */
     public frmUsuarios() {
         initComponents();
-        //Centrar pantalla
-        /*Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = pantalla.height;
-        int width = pantalla.width;
-        this.setSize(width/2, height/2);*/
         this.setLocationRelativeTo(null);
         Listado(0, "", "", 0, 0);//Trae todos los registros
-        lblCodPerf.setVisible(false);
-        lblClave.setVisible(false);
+        ///lblCodPerf.setVisible(false);
+        //lblUserID.setVisible(false);
         //lblCodEmpleado.setVisible(false);
         txtEmpleado.setEditable(false);
         mostrarPerfiles();//Muestra los perfiles en el combobox
+        lblCodPerf.setText("1");
         
     }
 
@@ -69,7 +66,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         lblClave = new javax.swing.JLabel();
-        lblCodEmpleado = new javax.swing.JLabel();
+        lblUserID = new javax.swing.JLabel();
 
         jMenuModificar.setText("Modificar");
         jMenuModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -80,6 +77,11 @@ public final class frmUsuarios extends javax.swing.JFrame {
         jPopupMenu1.add(jMenuModificar);
 
         jMenuEliminar.setText("Eliminar");
+        jMenuEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuEliminarActionPerformed(evt);
+            }
+        });
         jPopupMenu1.add(jMenuEliminar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -123,6 +125,11 @@ public final class frmUsuarios extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTableUsuarios);
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
 
@@ -164,60 +171,57 @@ public final class frmUsuarios extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btnBuscarEmp)
                                         .addGap(18, 18, 18)
-                                        .addComponent(lblCodEmpleado))
+                                        .addComponent(lblClave))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(51, 51, 51)
-                                        .addComponent(lblCodPerf))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(32, 32, 32)
-                                        .addComponent(lblClave))))
-                            .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(lblCodPerf))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblUserID)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnBuscarEmp)
-                                    .addComponent(lblCodEmpleado))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel2))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addComponent(lblCodPerf))))
-                            .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(lblClave)
-                        .addGap(17, 17, 17)))
+                            .addComponent(jLabel1)
+                            .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscarEmp)
+                            .addComponent(lblClave))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(lblCodPerf))))
+                    .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel4))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel4))
+                            .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnGuardar)
+                            .addComponent(btnBuscar)
+                            .addComponent(btnCancelar)
+                            .addComponent(btnLimpiar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar)
-                    .addComponent(btnBuscar)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnLimpiar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblUserID)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         pack();
@@ -226,7 +230,9 @@ public final class frmUsuarios extends javax.swing.JFrame {
     private void JCmbPerfilesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JCmbPerfilesItemStateChanged
         // TODO add your handling code here:
         int select = JCmbPerfiles.getSelectedIndex();
-        if(cont > 0) {
+        if(cont == 0) {
+            lblCodPerf.setText("1");
+        }else {
             lblCodPerf.setText("" + idsPerf[select]);
         }
         cont++;
@@ -245,6 +251,52 @@ public final class frmUsuarios extends javax.swing.JFrame {
         objFrmPers.setVisible(true);
         
     }//GEN-LAST:event_btnBuscarEmpActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        if(verificarCampos() == false) {
+            JOptionPane.showMessageDialog(null, "Error! porfavor ingrese los datos requeridos..");
+        }else {
+            if(editar == false) {
+                if(Guardar()) {
+                    JOptionPane.showMessageDialog(null, "Registro agregado correctamente!!!");
+                    Listado(0, "", "", 0, 0);//Actualiza los registros que se muestran
+                    //resetearEstadoComponentes();
+                }else {
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al agregar el perfil!");
+                }
+            }else {
+                if(Modificar()) {
+                    JOptionPane.showMessageDialog(null, "Registro modificado correctamente!!!");
+                    Listado(0, "", "", 0, 0);//Actualiza los registros que se muestran
+                    //resetearEstadoComponentes();
+                }else {
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al modificar el perfil!");
+                }
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void jMenuEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuEliminarActionPerformed
+        // TODO add your handling code here:
+        try {
+            int fila = jTableUsuarios.getSelectedRow();
+            if(fila >=0) {
+                
+                int resp = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar el registro seleccionado?");
+                if(JOptionPane.OK_OPTION == resp) {
+                    if(Eliminar(Integer.parseInt(jTableUsuarios.getValueAt(fila, 0).toString()))) {//Obtiene el id para eliminar
+                        JOptionPane.showMessageDialog(null, "Datos eliminados correctamente!!!");
+                    }
+                }
+            }else {
+                JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
+            }
+            Listado(0,"","",0, 0);
+        }catch(Exception err) {
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el registro...");
+        }
+    }//GEN-LAST:event_jMenuEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -291,6 +343,14 @@ public final class frmUsuarios extends javax.swing.JFrame {
         }
     }
     
+    public boolean verificarCampos() {
+        if(txtEmpleado.getText().trim().equals("") || txtusuario.getText().trim().equals("") || txtContrasena.getText().trim().equals("")) {
+            return false;
+        }else {
+            return true;
+        }
+    }
+    
     public void Listado(int idPerfil, String nombreUsu, String passw, int idPers, int opcion) {
         ResultSet result;
         try{
@@ -317,6 +377,53 @@ public final class frmUsuarios extends javax.swing.JFrame {
             System.out.println("Error! no hay nada en la base de datos...");
         }
     }
+    
+    public boolean Guardar() {
+        String passw = objUsuBo.encriptarContrasena(txtContrasena.getText().trim());
+        try{
+            objUsuBo.setTipoUser(Integer.parseInt(lblCodPerf.getText().trim()));
+            objUsuBo.setUsuario(txtusuario.getText().trim());
+            objUsuBo.setPassw(passw);
+            objUsuBo.setClaveEmp(lblClave.getText().trim());
+            
+            objUsuDao.AgregarUsuario(objUsuBo);
+            return true;
+        }catch(Exception e) {
+            //e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error! Puede que el código ya esté registrado...");
+            return false;
+        }
+    }
+    
+    public boolean Modificar() {
+        try{
+            objUsuBo.setId_user(Integer.parseInt(lblClave.getText().trim()));
+            objUsuBo.setTipoUser(Integer.parseInt(lblCodPerf.getText().trim()));
+            objUsuBo.setUsuario(txtusuario.getText().trim());
+            objUsuBo.setPassw(objUsuBo.encriptarContrasena(txtContrasena.getText().trim()));
+            objUsuBo.setClaveEmp(lblUserID.getText().trim());
+            
+            objUsuDao.Modificarusuarios(objUsuBo);
+            return true;
+        }catch(Exception e) {
+            //e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error!...");
+            return false;
+        }
+    }
+    
+    public boolean Eliminar(int codUser) {
+        try{
+            objUsuBo.setId_user(codUser);
+            
+            objUsuDao.EliminarUsuario(objUsuBo);
+            return true;
+        }catch(Exception e) {
+            //e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error!...");
+            return false;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> JCmbPerfiles;
@@ -334,9 +441,9 @@ public final class frmUsuarios extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableUsuarios;
-    private javax.swing.JLabel lblClave;
-    public static javax.swing.JLabel lblCodEmpleado;
+    public static javax.swing.JLabel lblClave;
     private javax.swing.JLabel lblCodPerf;
+    private javax.swing.JLabel lblUserID;
     private javax.swing.JTextField txtContrasena;
     public static javax.swing.JTextField txtEmpleado;
     private javax.swing.JTextField txtusuario;
@@ -345,10 +452,9 @@ public final class frmUsuarios extends javax.swing.JFrame {
     
     //Variables para conexion
     UsuariosDAO objUsuDao = new UsuariosDAO();
-    //Variables
-    UsuariosDAO usuarioDao = new UsuariosDAO();
+    UsuariosBO objUsuBo = new UsuariosBO();
     int[] idsPerf;
-    ArrayList < PerfilesBO > listaPerfiles = usuarioDao.consultarPerfiles();
+    ArrayList < PerfilesBO > listaPerfiles = objUsuDao.consultarPerfiles();
     int cont = 0;
     private boolean editar = false;
 }

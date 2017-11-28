@@ -1,5 +1,4 @@
 package DAO;
-import org.apache.commons.codec.digest.DigestUtils;
 import BO.PerfilesBO;
 import BO.UsuariosBO;
 import java.sql.CallableStatement;
@@ -122,8 +121,70 @@ public class UsuariosDAO {
         return result;
     }
     
-    public String encriptarContrasena(String pasw) {
-        String passwSHA=DigestUtils.sha1Hex(pasw);
-        return passwSHA;
-    }
+    public boolean AgregarUsuario(UsuariosBO objUBO)
+   {
+       boolean resultado = false;
+       try {            
+            // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
+            CallableStatement proc = con.getConnection().prepareCall("CALL sp_AgregarUsuario(?,?,?,?);");
+            //se cargan los parametros de entrada
+            proc.setInt("_IdPerfiles", objUBO.getTipoUser());//Tipo String
+            proc.setString("_NombreUsuario", objUBO.getUsuario());//Tipo String
+            proc.setString("_HashContra", objUBO.getPassw());//Tipo String
+            proc.setString("_Clave", objUBO.getClaveEmp());//Tipo String
+            // Se ejecuta el procedimiento almacenado
+            proc.execute();            
+            // devuelve el valor del parametro de salida del procedimiento
+            resultado = true;
+        } 
+       catch (SQLException e) {   
+           resultado = false;
+           System.out.println(e);
+       }
+       return resultado;
+   }
+    
+    public boolean Modificarusuarios(UsuariosBO obUPBO)
+   {
+       boolean resultado = false;
+       try {            
+            // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
+            CallableStatement proc = con.getConnection().prepareCall("CALL sp_ModificarUsuario(?,?,?,?,?);");
+            //se cargan los parametros de entrada
+            proc.setInt("_IdUsuarios", obUPBO.getId_user());
+            proc.setInt("_IdPerfiles", obUPBO.getTipoUser());//Tipo String
+            proc.setString("_NombreUsuario", obUPBO.getUsuario());//Tipo String
+            proc.setString("_HashContra", obUPBO.getPassw());//Tipo String
+            proc.setString("_Clave", obUPBO.getClaveEmp());//Tipo String
+            // Se ejecuta el procedimiento almacenado
+            proc.execute();            
+            // devuelve el valor del parametro de salida del procedimiento
+            resultado = true;
+        } 
+       catch (SQLException e) {   
+           resultado = false;
+            System.out.println(e);
+       }
+       return resultado;
+   }
+    
+    public boolean EliminarUsuario(UsuariosBO objUBO)
+   {
+       boolean resultado = false;
+       try {            
+            // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
+            CallableStatement proc = con.getConnection().prepareCall("CALL sp_EliminarUsuario(?);");
+            //se cargan los parametros de entrada
+            proc.setInt("_IdUsuarios", objUBO.getId_user());
+            // Se ejecuta el procedimiento almacenado
+            proc.execute();            
+            // devuelve el valor del parametro de salida del procedimiento
+            resultado = true;
+        } 
+       catch (SQLException e) {   
+           resultado = false;
+            System.out.println(e);
+       }
+       return resultado;
+   }
 }

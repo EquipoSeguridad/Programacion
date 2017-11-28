@@ -24,7 +24,7 @@ CREATE PROCEDURE `erp`.`sp_BuscarPerfil` (IN _idPerfiles int, OUT _NombrePerfil 
 BEGIN
 SET _NombrePerfil = '';
 IF(Exists(Select NombrePerfil from perfiles where IdPerfiles=_idPerfiles))
-THEN SET _NombrePerfil = (Select NombrePerfil from perfiles where IdPerfiles=id_Perfil);
+THEN SET _NombrePerfil = (Select NombrePerfil from perfiles where IdPerfiles=_idPerfiles);
 END IF;
 END $$
 
@@ -69,11 +69,37 @@ DELIMITER;
 
 
 
+#Procedmiento para agregar un usuario
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `erp`.`sp_AgregarUsuario` $$
+CREATE PROCEDURE `erp`.`sp_AgregarUsuario` (In _IdPerfiles int, In _NombreUsuario varchar(50), In _HashContra varchar(50), In _Clave varchar(10))
+BEGIN
+Insert into usuarios(IdPerfiles, NombreUsuario, Hashcontra, Clave) values (_IdPerfiles, _NombreUsuario, _HashContra, _Clave);
+END $$
+
+DELIMITER;
 
 
+#procedimiento para modificar un usuario
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `erp`.`sp_ModificarUsuario` $$
+CREATE PROCEDURE `erp`.`sp_ModificarUsuario` (In _IdUsuarios int, In _IdPerfiles int, In _NombreUsuario varchar(50), In _HashContra varchar(50), In _Clave varchar(10))
+BEGIN
+Update usuarios SET IdPerfiles=_IdPerfiles, NombreUsuario=_NombreUsuario, Hashcontra=_HashContra, Clave= _Clave Where IdUsuarios = _IdUsuarios;
+END $$
+
+DELIMITER;
 
 
+#Procedimiento para eliminar un usuario
+DELIMITER $$
 
+DROP PROCEDURE IF EXISTS `erp`.`sp_EliminarUsuario` $$
+CREATE PROCEDURE `erp`.`sp_EliminarUsuario` (In _IdUsuarios int)
+BEGIN
+Delete from usuarios where IdUsuarios=_IdUsuarios;
+END $$
 
-
-
+DELIMITER;

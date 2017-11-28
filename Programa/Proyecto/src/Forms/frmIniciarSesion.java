@@ -5,6 +5,7 @@
  */
 package Forms;
 
+import BO.UsuariosBO;
 import DAO.UsuariosDAO;
 import javax.swing.JOptionPane;
 
@@ -100,11 +101,14 @@ public class frmIniciarSesion extends javax.swing.JFrame {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         // TODO add your handling code here:
         if(verificarDatos()) {
-            int respu = userDAO.ValidarUsuario(txtusuario.getText(), txtPassw.getText());
+            UsuariosBO objUserBo = new UsuariosBO();
+            String hashPassw = objUserBo.encriptarContrasena(txtPassw.getText().trim());
+            int respu = userDAO.ValidarUsuario(txtusuario.getText(), hashPassw);
 
             if(respu!= -1) {
                 String perf = userDAO.BuscarPerfil(respu);
                 JOptionPane.showMessageDialog(null, "Bienvenido Usuario: " + perf);
+                limpiarCampos();
             }else {
                 JOptionPane.showMessageDialog(null, "El usuario no existe");
             }
@@ -154,6 +158,11 @@ public class frmIniciarSesion extends javax.swing.JFrame {
         }else {
             return true;
         }
+    }
+    
+    public void limpiarCampos() {
+        txtusuario.setText("");
+        txtPassw.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
