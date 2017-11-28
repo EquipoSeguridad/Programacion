@@ -166,7 +166,7 @@ public class frmPerfiles extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        if(txtNombrePerfil.getText().equals("")) {
+        if(txtNombrePerfil.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Error! porfavor ingrese el nomnre del perfil");
         }else {
             if(editar == false) {
@@ -239,7 +239,7 @@ public class frmPerfiles extends javax.swing.JFrame {
         if(txtNombrePerfil.getText().equals("")) {
             Listado("", 0);//Trae todos los registros
         }else {
-            objperfBO.setNombrePerfil(txtNombrePerfil.getText());
+            objperfBO.setNombrePerfil(txtNombrePerfil.getText().trim());
             Listado(objperfBO.getNombrePerfil(), 1);//Trae un solo registro
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -280,6 +280,7 @@ public class frmPerfiles extends javax.swing.JFrame {
     }
     
     public void resetearEstadoComponentes() {
+        editar = false;
         btnBuscar.setEnabled(true);
         btnCancelar.setEnabled(false);
         btnGuardar.setEnabled(true);
@@ -317,7 +318,7 @@ public class frmPerfiles extends javax.swing.JFrame {
     
     public boolean Guardar() {
         try{
-            objperfBO.setNombrePerfil(txtNombrePerfil.getText());
+            objperfBO.setNombrePerfil(txtNombrePerfil.getText().trim());
             
             objPerfDao.AgregarPerfil(objperfBO);
             return true;
@@ -330,8 +331,8 @@ public class frmPerfiles extends javax.swing.JFrame {
     
     public boolean Modificar() {
         try{
-            objperfBO.setIdPerfil(Integer.parseInt(lblCodigo.getText()));
-            objperfBO.setNombrePerfil(txtNombrePerfil.getText());
+            objperfBO.setIdPerfil(Integer.parseInt(lblCodigo.getText().trim()));
+            objperfBO.setNombrePerfil(txtNombrePerfil.getText().trim());
             
             objPerfDao.ModificarPerfil(objperfBO);
             return true;

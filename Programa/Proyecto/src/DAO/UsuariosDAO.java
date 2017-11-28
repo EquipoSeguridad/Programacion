@@ -1,5 +1,5 @@
 package DAO;
-
+import org.apache.commons.codec.digest.DigestUtils;
 import BO.PerfilesBO;
 import BO.UsuariosBO;
 import java.sql.CallableStatement;
@@ -110,7 +110,7 @@ public class UsuariosDAO {
         try{
             String sql = "";
             if(opcion == 0) {
-                sql = "SELECT * FROM usuarios;";
+                sql = "SELECT IdUsuarios, NombreUsuario,  Hashcontra, IdPerfiles, Clave FROM usuarios;";
             }else {
                 sql = "select * from usuarios where IdPerfiles="+ idPerfil+" or NombreUsuario Like '"+ nombreUsu +"%' or Hashcontra Like '"+ passw +"%' or Clave ="+ idPers+";";
             }
@@ -120,5 +120,10 @@ public class UsuariosDAO {
             System.out.println(e);
         }
         return result;
+    }
+    
+    public String encriptarContrasena(String pasw) {
+        String passwSHA=DigestUtils.sha1Hex(pasw);
+        return passwSHA;
     }
 }

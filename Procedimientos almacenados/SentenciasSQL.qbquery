@@ -18,4 +18,7 @@ values(1, 'Andrés', 'Perez', 'Vazquez', 'Masculino', '1990/02/10', '211212312',
 
 select * from usuarios;
 select * from usuarios where IdPerfiles=1 or NombreUsuario Like 'A%' or Hashcontra Like 'A%' or Clave =1;
-Insert into usuarios(IdPerfiles, NombreUsuario, Hashcontra, Clave) values (1, 'Mau97', 'sdbajsb717', 1);
+Insert into usuarios(IdPerfiles, NombreUsuario, Hashcontra, Clave) values (1, 'AndV90', 'sdbajsb717', 1);
+
+
+select Clave, Nombre, Concat(ApellidoPaterno, ' ', ApellidoMaterno), RFC, Puesto, Departamento, Telefono, Correo from personal;

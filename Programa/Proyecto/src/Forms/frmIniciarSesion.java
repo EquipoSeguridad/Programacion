@@ -149,7 +149,7 @@ public class frmIniciarSesion extends javax.swing.JFrame {
     }
     
     public boolean verificarDatos() {
-        if(txtusuario.getText().equals("") || txtPassw.getText().equals("")) {
+        if(txtusuario.getText().trim().equals("") || txtPassw.getText().trim().equals("")) {
             return false;
         }else {
             return true;
