@@ -240,7 +240,7 @@ public class frmPerfiles extends javax.swing.JFrame {
             Listado("", 0);//Trae todos los registros
         }else {
             objperfBO.setNombrePerfil(txtNombrePerfil.getText());
-            Listado(objperfBO.getNombrePerfil(), 1);
+            Listado(objperfBO.getNombrePerfil(), 1);//Trae un solo registro
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 

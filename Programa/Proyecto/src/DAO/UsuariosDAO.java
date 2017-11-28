@@ -34,14 +34,14 @@ public class UsuariosDAO {
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
             CallableStatement proc = con.getConnection().prepareCall("CALL sp_ValidarUsuario(?,?,?);");
             //se cargan los parametros de entrada
-            proc.setString("NombreUsuario", user);//Tipo String
-            proc.setString("HashContra", passw);//Tipo String
+            proc.setString("_NombreUsuario", user);//Tipo String
+            proc.setString("_HashContra", passw);//Tipo String
             // parametros de salida
-            proc.registerOutParameter("resp", Types.VARCHAR);//Tipo String
+            proc.registerOutParameter("_idPerfiles", Types.VARCHAR);//Tipo String
             // Se ejecuta el procedimiento almacenado
             proc.execute();
             // devuelve el valor del parametro de salida del procedimiento
-            resultado = proc.getInt("resp");
+            resultado = proc.getInt("_idPerfiles");
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -54,13 +54,13 @@ public class UsuariosDAO {
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
             CallableStatement proc = con.getConnection().prepareCall("CALL sp_BuscarPerfil(?,?);");
             //se cargan los parametros de entrada
-            proc.setInt("id_Perfil", id_Perf);//Tipo String
+            proc.setInt("_idPerfiles", id_Perf);//Tipo String
             // parametros de salida
-            proc.registerOutParameter("nombreP", Types.VARCHAR);//Tipo String
+            proc.registerOutParameter("_NombrePerfil", Types.VARCHAR);//Tipo String
             // Se ejecuta el procedimiento almacenado
             proc.execute();
             // devuelve el valor del parametro de salida del procedimiento
-            resultado = proc.getString("nombreP");
+            resultado = proc.getString("_NombrePerfil");
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -75,7 +75,7 @@ public class UsuariosDAO {
 
         PerfilesBO perfilBo;
 
-        String consulta = "Select idPerfil, nombrePerfil from perfilusuario;";
+        String consulta = "Select IdPerfiles, NombrePerfil from perfiles;";
 
         try {
             if (con.getConnection() != null) {
@@ -84,8 +84,8 @@ public class UsuariosDAO {
 
                 while (result.next() == true) {
                     perfilBo = new PerfilesBO();
-                    perfilBo.setIdPerfil(result.getInt("idPerfil"));
-                    perfilBo.setNombrePerfil(result.getString("nombrePerfil"));
+                    perfilBo.setIdPerfil(result.getInt("IdPerfiles"));
+                    perfilBo.setNombrePerfil(result.getString("NombrePerfil"));
 
                     perfilesList.add(perfilBo);
                 }
