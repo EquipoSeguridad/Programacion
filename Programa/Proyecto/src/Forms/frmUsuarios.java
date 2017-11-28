@@ -7,22 +7,26 @@ package Forms;
 
 import BO.PerfilesBO;
 import DAO.UsuariosDAO;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author MANUEL
  */
-public class frmUsuarios extends javax.swing.JFrame {
+public final class frmUsuarios extends javax.swing.JFrame {
 
     /**
      * Creates new form frmUsuarios
      */
     public frmUsuarios() {
         initComponents();
+        Listado(0, "", "", 0, 0);//Trae todos los registros
         lblCodPerf.setVisible(false);
         mostrarPerfiles();//Muestra los perfiles en el combobox
+        
     }
 
     /**
@@ -45,7 +49,7 @@ public class frmUsuarios extends javax.swing.JFrame {
         btnBuscarEmp = new javax.swing.JButton();
         lblCodPerf = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableUsuarios = new javax.swing.JTable();
         btnGuardar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         Cancelar = new javax.swing.JButton();
@@ -72,7 +76,7 @@ public class frmUsuarios extends javax.swing.JFrame {
 
         btnBuscarEmp.setText("Buscar empleado");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -83,7 +87,7 @@ public class frmUsuarios extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableUsuarios);
 
         btnGuardar.setText("Guardar");
 
@@ -227,6 +231,33 @@ public class frmUsuarios extends javax.swing.JFrame {
             System.out.println(idsPerf[i]);
         }
     }
+    
+    public void Listado(int idPerfil, String nombreUsu, String passw, int idPers, int opcion) {
+        ResultSet result;
+        try{
+            result = objUsuDao.Lista(idPerfil, nombreUsu, passw, idPers, opcion);
+            DefaultTableModel modelo = new DefaultTableModel();
+            this.jTableUsuarios.setModel(modelo);
+            
+            java.sql.ResultSetMetaData mtDatos = result.getMetaData();
+            int numColumn = mtDatos.getColumnCount();
+            Object[] nomCampos = new Object[numColumn];
+            for(int i = 0; i < numColumn; i++) {
+                nomCampos[i] = mtDatos.getColumnLabel(i+1);
+            }
+            modelo.setColumnIdentifiers(nomCampos);
+            while(result.next()) {
+                Object[] fila = new Object[numColumn];
+                for(int j = 0; j < numColumn; j++) {
+                    fila[j] = result.getObject(j+1);
+                }
+                modelo.addRow(fila);
+            }
+            //result.close();
+        }catch(Exception err) {
+            System.out.println("Error! no hay nada en la base de datos...");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Cancelar;
@@ -240,13 +271,16 @@ public class frmUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableUsuarios;
     private javax.swing.JLabel lblCodPerf;
     private javax.swing.JTextField txtContrasena;
     private javax.swing.JTextField txtEmpleado;
     private javax.swing.JTextField txtusuario;
     // End of variables declaration//GEN-END:variables
     
+    
+    //Variables para conexion
+    UsuariosDAO objUsuDao = new UsuariosDAO();
     //Variables
     UsuariosDAO usuarioDao = new UsuariosDAO();
     int[] idsPerf;

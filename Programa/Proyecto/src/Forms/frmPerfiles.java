@@ -285,6 +285,7 @@ public class frmPerfiles extends javax.swing.JFrame {
         btnGuardar.setEnabled(true);
         lblCodigo.setText("");
         txtNombrePerfil.setText("");
+        Listado("", 0);
     }
     
     public void Listado(String perfil, int codigo) {

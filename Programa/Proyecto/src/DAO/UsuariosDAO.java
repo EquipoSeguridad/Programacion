@@ -94,13 +94,31 @@ public class UsuariosDAO {
             System.out.println("Error en la consulta de perfiles: " + e.getMessage());
         } finally {
             try {
-                con.getConnection().close();
+                //con.getConnection().close();
 
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
         return perfilesList;
+    }
+    
+    public ResultSet Lista(int idPerfil, String nombreUsu, String passw, int idPers, int opcion) throws SQLException {
+        ResultSet result = null;
+        
+        try{
+            String sql = "";
+            if(opcion == 0) {
+                sql = "SELECT * FROM usuarios;";
+            }else {
+                sql = "select * from usuarios where IdPerfiles="+ idPerfil+" or NombreUsuario Like '"+ nombreUsu +"%' or Hashcontra Like '"+ passw +"%' or Clave ="+ idPers+";";
+            }
+            PreparedStatement pa = con.getConnection().prepareStatement(sql);
+            result = pa.executeQuery();
+        }catch(SQLException e) {
+            System.out.println(e);
+        }
+        return result;
     }
 }
