@@ -22,3 +22,14 @@ Insert into usuarios(IdPerfiles, NombreUsuario, Hashcontra, Clave) values (1, 'A
 
 
 select Clave, Nombre, Concat(ApellidoPaterno, ' ', ApellidoMaterno) As 'Apellidos' , RFC, Puesto, Departamento, Telefono, Correo from personal;
+
+
+
+select * from ErroresERP;
+insert into ErroresERP (Timestamp, Descripcion) values ('2017/11/28 17:45:00', 'Error de conexión');
+
+select * from Bitacora;
+insert into Bitacora (IdErroresERP, IdPerfiles, IdUsuarios, Timestamp, Accion) values (1, 1, 1, now(), 'Inicio de sesion');
+
+
+

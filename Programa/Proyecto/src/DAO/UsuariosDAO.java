@@ -31,12 +31,13 @@ public class UsuariosDAO {
         int resultado = -1;
         try {
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
-            CallableStatement proc = con.getConnection().prepareCall("CALL sp_ValidarUsuario(?,?,?);");
+            CallableStatement proc = con.getConnection().prepareCall("CALL sp_ValidarUsuario(?,?,?,?);");
             //se cargan los parametros de entrada
             proc.setString("_NombreUsuario", user);//Tipo String
             proc.setString("_HashContra", passw);//Tipo String
             // parametros de salida
             proc.registerOutParameter("_idPerfiles", Types.VARCHAR);//Tipo String
+            proc.registerOutParameter("_idUsuarios", Types.VARCHAR);//Tipo String
             // Se ejecuta el procedimiento almacenado
             proc.execute();
             // devuelve el valor del parametro de salida del procedimiento

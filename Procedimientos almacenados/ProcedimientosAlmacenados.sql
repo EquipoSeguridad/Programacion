@@ -6,11 +6,16 @@ DROP PROCEDURE IF EXISTS `erp`.`sp_ValidarUsuario` $$
 CREATE PROCEDURE `erp`.`sp_ValidarUsuario` (
   IN _NombreUsuario Varchar(50),
   IN _HashContra Varchar(50),
-  OUT _idPerfiles int)
+  OUT _idPerfiles int,
+  OUT _idUsuarios int )
 BEGIN
   SET _idPerfiles = -1;
+  SET _idUsuarios = -1;
   IF ( EXISTS( SELECT idPerfiles FROM usuarios WHERE NombreUsuario=_NombreUsuario AND HashContra = _HashContra))
-  THEN SET _idPerfiles = (Select idPerfiles from usuarios where NombreUsuario=_NombreUsuario AND HashContra = _HashContra);
+  THEN
+      SET _idPerfiles = (Select idPerfiles from usuarios where NombreUsuario=_NombreUsuario AND HashContra = _HashContra);
+      SET _idUsuarios = (Select idUsuarios from usuarios where NombreUsuario=_NombreUsuario AND HashContra = _HashContra);
+
 END IF;
 END $$
 
@@ -120,6 +125,19 @@ END $$
 
 DELIMITER;
 
+
+#Metodo para ingresar un dato a la bitacora
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `erp`.`sp_InsertarBitacora` $$
+CREATE PROCEDURE `erp`.`sp_InsertarBitacora` (In _IdErroresERP int, In _IdPerfiles int, In _IdUsuarios int, In _Timestamp Datetime, In _Accion varchar(50))
+BEGIN
+
+insert into Bitacora (IdErroresERP, IdPerfiles, IdUsuarios, Timestamp, Accion) values (_IdErroresERP, _IdPerfiles, _IdUsuarios, now(), _Accion);
+
+END $$
+
+DELIMITER;
 
 
 

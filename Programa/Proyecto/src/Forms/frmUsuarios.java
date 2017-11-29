@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Forms;
 
 import BO.PerfilesBO;
@@ -32,6 +27,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
         lblUserID.setVisible(false);
         lblClave.setVisible(false);
         txtEmpleado.setEditable(false);
+        chkEditar.setEnabled(false);
         mostrarPerfiles();//Muestra los perfiles en el combobox
         lblCodPerf.setText("1");
         lblClave.setText("0");
@@ -67,6 +63,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         lblClave = new javax.swing.JLabel();
         lblUserID = new javax.swing.JLabel();
+        chkEditar = new javax.swing.JCheckBox();
 
         jMenuModificar.setText("Modificar");
         jMenuModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -142,8 +139,25 @@ public final class frmUsuarios extends javax.swing.JFrame {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
+        chkEditar.setText("Editar");
+        chkEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -165,7 +179,9 @@ public final class frmUsuarios extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(chkEditar))
             .addGroup(layout.createSequentialGroup()
                 .addGap(272, 272, 272)
                 .addComponent(lblUserID))
@@ -203,12 +219,14 @@ public final class frmUsuarios extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(jLabel2))
                     .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(jLabel3))
-                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(chkEditar)))
                 .addComponent(lblUserID)
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,12 +262,14 @@ public final class frmUsuarios extends javax.swing.JFrame {
         // TODO add your handling code here:
         int fila = jTableUsuarios.getSelectedRow();//Obtiene el indice de la fila
         if(fila >=0) {//Verifica que se haya seleccionado una fila
+            chkEditar.setEnabled(true);
             editar = true;//Activa la opcion de editar
             btnCancelar.setEnabled(true);//Activa el boton de cancelar
             btnBuscar.setEnabled(false);//Bloquea el boton de busar
             lblUserID.setText(jTableUsuarios.getValueAt(fila, 0).toString());//obtiene el código del usuario
             txtusuario.setText(jTableUsuarios.getValueAt(fila, 1).toString());//Muestra el nombre del perfil seleccionado
             txtContrasena.setText(jTableUsuarios.getValueAt(fila, 2).toString());//obtiene la contra del perfil
+            contraG = txtContrasena.getText();
             txtContrasena.setEditable(false);
             lblCodPerf.setText(jTableUsuarios.getValueAt(fila, 3).toString());//obtiene el codigo del perfil
             lblClave.setText(jTableUsuarios.getValueAt(fila, 4).toString());//obtiene el código del empleao
@@ -324,6 +344,27 @@ public final class frmUsuarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        resetearCampos();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        resetearCampos();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void chkEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEditarActionPerformed
+        // TODO add your handling code here:
+        if(chkEditar.isSelected()) {
+            txtContrasena.setEditable(true);
+            txtContrasena.setText("");
+        }else {
+            txtContrasena.setEditable(false);
+            txtContrasena.setText(contraG);
+        }
+    }//GEN-LAST:event_chkEditarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -365,7 +406,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
         for (int i = 0; i < listaPerfiles.size(); i++) {
             JCmbPerfiles.addItem(listaPerfiles.get(i).getNombrePerfil());
             idsPerf[i] = listaPerfiles.get(i).getIdPerfil();
-            System.out.println(idsPerf[i]);
+            //System.out.println(idsPerf[i]);
         }
     }
     
@@ -450,6 +491,23 @@ public final class frmUsuarios extends javax.swing.JFrame {
             return false;
         }
     }
+    
+    public void resetearCampos() {
+        txtEmpleado.setText("");
+        txtusuario.setText("");
+        txtContrasena.setText("");
+        lblClave.setText("0");
+        lblCodPerf.setText("1");
+        lblUserID.setText("0");
+        btnGuardar.setEnabled(true);
+        btnBuscarEmp.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        btnLimpiar.setEnabled(true);
+        chkEditar.setEnabled(false);
+        txtContrasena.setEditable(true);
+        cont = 0;
+        Listado(0, "", "", 0, 0);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> JCmbPerfiles;
@@ -458,6 +516,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JCheckBox chkEditar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -483,4 +542,5 @@ public final class frmUsuarios extends javax.swing.JFrame {
     ArrayList < PerfilesBO > listaPerfiles = objUsuDao.consultarPerfiles();
     int cont = 0;
     private boolean editar = false;
+    String contraG = "";
 }
