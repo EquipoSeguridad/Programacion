@@ -8,12 +8,15 @@ package Forms;
 
 import BO.PerfilesBO;
 import DAO.PerfilesDAO;
+import java.awt.Point;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -26,6 +29,7 @@ public class frmPerfiles extends javax.swing.JFrame {
         initComponents();
         lblCodigo.setVisible(false);//Oculta el label del código
         btnCancelar.setEnabled(false);//Bloquea el botón de cancelar al inicio
+        btnEliminar.setEnabled(false);
         Listado("", 0);//Mustra los perfiles agregados
     }
 
@@ -42,14 +46,20 @@ public class frmPerfiles extends javax.swing.JFrame {
         jMenuModificar = new javax.swing.JMenuItem();
         JMenuEliminar = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTablePerfiles = new javax.swing.JTable();
+        jTablePerfiles = new JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+
+                return false; //Las celdas no son editables.
+
+            }
+        };
         jLabel2 = new javax.swing.JLabel();
         txtNombrePerfil = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
-        btnLimpiar = new javax.swing.JButton();
         lblCodigo = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JButton();
 
         jMenuModificar.setText("Modificar");
         jMenuModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -83,10 +93,16 @@ public class frmPerfiles extends javax.swing.JFrame {
             }
         ));
         jTablePerfiles.setComponentPopupMenu(jPopupMenu1);
+        jTablePerfiles.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jTablePerfilesMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTablePerfiles);
 
         jLabel2.setText("Nombre perfil:");
 
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icong.png"))); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,6 +110,7 @@ public class frmPerfiles extends javax.swing.JFrame {
             }
         });
 
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/iconca.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,6 +118,7 @@ public class frmPerfiles extends javax.swing.JFrame {
             }
         });
 
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icons.png"))); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,10 +126,11 @@ public class frmPerfiles extends javax.swing.JFrame {
             }
         });
 
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icond.png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
             }
         });
 
@@ -119,45 +138,47 @@ public class frmPerfiles extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(44, 44, 44)
+                .addComponent(lblCodigo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNombrePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(btnGuardar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLimpiar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCodigo)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtNombrePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnEliminar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCancelar)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblCodigo)
-                .addGap(8, 8, 8)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNombrePerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
-                    .addComponent(btnCancelar)
                     .addComponent(btnBuscar)
-                    .addComponent(btnLimpiar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnEliminar))
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -178,12 +199,18 @@ public class frmPerfiles extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Ocurrió un error al agregar el perfil!");
                 }
             }else {
-                if(Modificar()) {
-                    JOptionPane.showMessageDialog(null, "Registro modificado correctamente!!!");
-                    Listado("", 0);//Actualiza los registros que se muestran
-                    resetearEstadoComponentes();
+                if(btnGuardar.getText().trim().equals("Modificar")) {
+                    txtNombrePerfil.setEditable(true);
+                    txtNombrePerfil.requestFocus();
+                    btnGuardar.setText("Guardar");
                 }else {
-                    JOptionPane.showMessageDialog(null, "Ocurrió un error al modificar el perfil!");
+                    if(Modificar()) {
+                        JOptionPane.showMessageDialog(null, "Registro modificado correctamente!!!");
+                        Listado("", 0);//Actualiza los registros que se muestran
+                        resetearEstadoComponentes();
+                    }else {
+                        JOptionPane.showMessageDialog(null, "Ocurrió un error al modificar el perfil!");
+                    }
                 }
             }
         }
@@ -202,11 +229,6 @@ public class frmPerfiles extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
         }
     }//GEN-LAST:event_jMenuModificarActionPerformed
-
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
-        resetearEstadoComponentes();
-    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
@@ -243,6 +265,38 @@ public class frmPerfiles extends javax.swing.JFrame {
             Listado(objperfBO.getNombrePerfil(), 1);//Trae un solo registro
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void jTablePerfilesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePerfilesMousePressed
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            int fila = jTablePerfiles.getSelectedRow();//Obtiene el indice de la fila
+            if(fila >=0) {//Verifica que se haya seleccionado una fila
+                editar = true;//Activa la opcion de editar
+                btnCancelar.setEnabled(true);//Activa el boton de cancelar
+                btnBuscar.setEnabled(false);//Bloquea el boton de busar
+                lblCodigo.setText(jTablePerfiles.getValueAt(fila, 0).toString());//obtiene el código del perfil
+                txtNombrePerfil.setText(jTablePerfiles.getValueAt(fila, 1).toString());//Muestra el nombre del perfil seleccionado
+                txtNombrePerfil.setEditable(false);
+                btnEliminar.setEnabled(true);
+                btnGuardar.setText("Modificar");
+            }else {
+                JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
+            }
+        }
+    }//GEN-LAST:event_jTablePerfilesMousePressed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        int resp = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar el registro seleccionado?");
+        if(JOptionPane.OK_OPTION == resp) {
+            if(Eliminar(Integer.parseInt(lblCodigo.getText().trim()))) {//Obtiene el id para eliminar
+                JOptionPane.showMessageDialog(null, "Datos eliminados correctamente!!!");
+                resetearEstadoComponentes();
+            }else {
+                JOptionPane.showMessageDialog(null, "Ocurrrió un error al eliminar el registro");
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,6 +340,10 @@ public class frmPerfiles extends javax.swing.JFrame {
         btnGuardar.setEnabled(true);
         lblCodigo.setText("");
         txtNombrePerfil.setText("");
+        txtNombrePerfil.setEditable(true);
+        txtNombrePerfil.requestFocus();
+        btnGuardar.setText("Guardar");
+        btnEliminar.setEnabled(false);
         Listado("", 0);
     }
     
@@ -360,8 +418,8 @@ public class frmPerfiles extends javax.swing.JFrame {
     private javax.swing.JMenuItem JMenuEliminar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenuItem jMenuModificar;
     private javax.swing.JPopupMenu jPopupMenu1;

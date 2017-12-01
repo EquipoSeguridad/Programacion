@@ -54,7 +54,7 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `erp`.`sp_ModificarPerfil` $$
 CREATE PROCEDURE `erp`.`sp_ModificarPerfil` (In _idPerfiles int, In _NombrePerfil varchar(10))
 BEGIN
-Update perfiles SET NombrePerfil=_idPerfiles Where idPerfiles = _idPerfiles;
+Update perfiles SET NombrePerfil=_NombrePerfil Where idPerfiles = _idPerfiles;
 END $$
 
 DELIMITER;
@@ -138,7 +138,6 @@ insert into Bitacora (IdErroresERP, IdPerfiles, IdUsuarios, Timestamp, Accion) v
 END $$
 
 DELIMITER;
-
 
 
 
