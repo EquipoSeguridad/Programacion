@@ -1,6 +1,7 @@
 package Forms;
 
 import BO.PerfilesBO;
+import BO.PersonalBO;
 import BO.UsuariosBO;
 import DAO.UsuariosDAO;
 import java.awt.Dimension;
@@ -8,6 +9,9 @@ import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,10 +29,12 @@ public final class frmUsuarios extends javax.swing.JFrame {
         Listado(0, "", "", 0, 0);//Trae todos los registros
         lblCodPerf.setVisible(false);
         lblUserID.setVisible(false);
-        lblClave.setVisible(false);
-        txtEmpleado.setEditable(false);
+        //lblClave.setVisible(false);
+        //txtEmpleado.setEditable(false);
         chkEditar.setEnabled(false);
         mostrarPerfiles();//Muestra los perfiles en el combobox
+        mostrarPersonal("");//Muestra el personal en el combobox
+        setTextFieldChanged(txtEmpleado);
         lblCodPerf.setText("1");
         lblClave.setText("0");
     }
@@ -53,7 +59,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
         txtContrasena = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         JCmbPerfiles = new javax.swing.JComboBox<>();
-        btnBuscarEmp = new javax.swing.JButton();
         lblCodPerf = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUsuarios = new javax.swing.JTable();
@@ -61,9 +66,10 @@ public final class frmUsuarios extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
-        lblClave = new javax.swing.JLabel();
         lblUserID = new javax.swing.JLabel();
         chkEditar = new javax.swing.JCheckBox();
+        jcmbPersonal = new javax.swing.JComboBox<>();
+        lblClave = new javax.swing.JLabel();
 
         jMenuModificar.setText("Modificar");
         jMenuModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -100,13 +106,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
         JCmbPerfiles.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 JCmbPerfilesItemStateChanged(evt);
-            }
-        });
-
-        btnBuscarEmp.setText("Buscar empleado");
-        btnBuscarEmp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarEmpActionPerformed(evt);
             }
         });
 
@@ -159,66 +158,83 @@ public final class frmUsuarios extends javax.swing.JFrame {
             }
         });
 
+        jcmbPersonal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcmbPersonal.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcmbPersonalItemStateChanged(evt);
+            }
+        });
+
+        lblClave.setText("jLabel5");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblClave))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(chkEditar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(272, 272, 272)
+                        .addComponent(lblUserID))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(btnGuardar)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnBuscar)
+                        .addGap(35, 35, 35)
+                        .addComponent(btnCancelar)
+                        .addGap(39, 39, 39)
+                        .addComponent(btnLimpiar)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(btnBuscarEmp))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(63, 63, 63)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
-                .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(chkEditar))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(272, 272, 272)
-                .addComponent(lblUserID))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(btnGuardar)
-                .addGap(30, 30, 30)
-                .addComponent(btnBuscar)
-                .addGap(35, 35, 35)
-                .addComponent(btnCancelar)
-                .addGap(39, 39, 39)
-                .addComponent(btnLimpiar))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jcmbPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
+                        .addGap(22, 22, 22)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnBuscarEmp))
-                .addGap(12, 12, 12)
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcmbPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel2))
-                    .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblClave)))
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -279,15 +295,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
         }
     }//GEN-LAST:event_jMenuModificarActionPerformed
-
-    private void btnBuscarEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarEmpActionPerformed
-        // TODO add your handling code here:
-        frmConsultarPersonal objFrmPers = new frmConsultarPersonal();
-        objFrmPers.setLocationRelativeTo(null);
-        this.setVisible(false);
-        objFrmPers.setVisible(true);
-        
-    }//GEN-LAST:event_btnBuscarEmpActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
@@ -365,6 +372,58 @@ public final class frmUsuarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chkEditarActionPerformed
 
+    private void jcmbPersonalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcmbPersonalItemStateChanged
+        // TODO add your handling code here:
+        if(jcmbPersonal.getItemCount() > 0) {
+        int select = jcmbPersonal.getSelectedIndex();
+        if(contd == 0) {
+            lblClave.setText("0");
+        }else {
+            lblClave.setText("" + idsPerso[select]);
+        }
+        contd++;
+        }
+    }//GEN-LAST:event_jcmbPersonalItemStateChanged
+
+    int i = 0;
+    private void setTextFieldChanged(JTextField txt) {
+        DocumentListener documentL = new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                /*System.out.println("insert");
+                lblClave.setText(txtEmpleado.getText());*/
+                try{
+                mostrarPersonal(txtEmpleado.getText());
+                }catch(Exception er) {
+                    System.out.println("Ninguna coincidencia");
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                /*System.out.println("remove");
+                lblClave.setText(txtEmpleado.getText());*/
+                try{
+                mostrarPersonal(txtEmpleado.getText());
+                }catch(Exception er) {
+                    System.out.println("Ninguna coincidencia");
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                /*System.out.println("change");
+                lblClave.setText(txtEmpleado.getText());*/
+                try{
+                mostrarPersonal(txtEmpleado.getText());
+                }catch(Exception er) {
+                    System.out.println("Ninguna coincidencia");
+                }
+            }
+        };
+        txt.getDocument().addDocumentListener(documentL);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -408,6 +467,20 @@ public final class frmUsuarios extends javax.swing.JFrame {
             idsPerf[i] = listaPerfiles.get(i).getIdPerfil();
             //System.out.println(idsPerf[i]);
         }
+    }
+    
+    private void mostrarPersonal(String Nombre) {
+        listaPersonal = objUsuDao.buscarPersonal(Nombre);
+        jcmbPersonal.removeAllItems();
+        jcmbPersonal.addItem("Seleccionar...");
+        if(listaPersonal.size() > 0) {
+            idsPerso = new String[listaPersonal.size()];
+            for (int i = 0; i < listaPersonal.size(); i++) {
+                jcmbPersonal.addItem(listaPersonal.get(i).getNombre());
+                idsPerso[i] = listaPersonal.get(i).getClave();
+                //System.out.println(idsPerf[i]);
+            }
+        }else{System.out.println("Sin resultado");}
     }
     
     public boolean verificarCampos() {
@@ -500,7 +573,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
         lblCodPerf.setText("1");
         lblUserID.setText("0");
         btnGuardar.setEnabled(true);
-        btnBuscarEmp.setEnabled(true);
         btnCancelar.setEnabled(true);
         btnLimpiar.setEnabled(true);
         chkEditar.setEnabled(false);
@@ -512,7 +584,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> JCmbPerfiles;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnBuscarEmp;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
@@ -526,6 +597,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableUsuarios;
+    private javax.swing.JComboBox<String> jcmbPersonal;
     public static javax.swing.JLabel lblClave;
     private javax.swing.JLabel lblCodPerf;
     private javax.swing.JLabel lblUserID;
@@ -538,9 +610,13 @@ public final class frmUsuarios extends javax.swing.JFrame {
     //Variables para conexion
     UsuariosDAO objUsuDao = new UsuariosDAO();
     UsuariosBO objUsuBo = new UsuariosBO();
+    PersonalBO objPersBo = new PersonalBO();
     int[] idsPerf;
+    String[] idsPerso;
     ArrayList < PerfilesBO > listaPerfiles = objUsuDao.consultarPerfiles();
+    ArrayList <PersonalBO> listaPersonal;
     int cont = 0;
+    int contd = 0;
     private boolean editar = false;
     String contraG = "";
 }
