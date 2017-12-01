@@ -42,9 +42,6 @@ public class frmPerfiles extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenuModificar = new javax.swing.JMenuItem();
-        JMenuEliminar = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePerfiles = new JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -61,22 +58,6 @@ public class frmPerfiles extends javax.swing.JFrame {
         lblCodigo = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
 
-        jMenuModificar.setText("Modificar");
-        jMenuModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuModificarActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(jMenuModificar);
-
-        JMenuEliminar.setText("Eliminar");
-        JMenuEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JMenuEliminarActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(JMenuEliminar);
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Perfiles");
         setResizable(false);
@@ -92,7 +73,6 @@ public class frmPerfiles extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTablePerfiles.setComponentPopupMenu(jPopupMenu1);
         jTablePerfiles.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jTablePerfilesMousePressed(evt);
@@ -216,45 +196,10 @@ public class frmPerfiles extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void jMenuModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuModificarActionPerformed
-        // TODO add your handling code here:
-        int fila = jTablePerfiles.getSelectedRow();//Obtiene el indice de la fila
-        if(fila >=0) {//Verifica que se haya seleccionado una fila
-            editar = true;//Activa la opcion de editar
-            btnCancelar.setEnabled(true);//Activa el boton de cancelar
-            btnBuscar.setEnabled(false);//Bloquea el boton de busar
-            lblCodigo.setText(jTablePerfiles.getValueAt(fila, 0).toString());//obtiene el código del perfil
-            txtNombrePerfil.setText(jTablePerfiles.getValueAt(fila, 1).toString());//Muestra el nombre del perfil seleccionado
-        }else {
-            JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
-        }
-    }//GEN-LAST:event_jMenuModificarActionPerformed
-
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         resetearEstadoComponentes();
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void JMenuEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JMenuEliminarActionPerformed
-        // TODO add your handling code here:
-        try {
-            int fila = jTablePerfiles.getSelectedRow();
-            if(fila >=0) {
-                
-                int resp = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar el registro seleccionado?");
-                if(JOptionPane.OK_OPTION == resp) {
-                    if(Eliminar(Integer.parseInt(jTablePerfiles.getValueAt(fila, 0).toString()))) {//Obtiene el id para eliminar
-                        JOptionPane.showMessageDialog(null, "Datos eliminados correctamente!!!");
-                    }
-                }
-            }else {
-                JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
-            }
-            Listado("", 0);
-        }catch(Exception err) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el registro...");
-        }
-    }//GEN-LAST:event_JMenuEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
@@ -415,14 +360,11 @@ public class frmPerfiles extends javax.swing.JFrame {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem JMenuEliminar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenuItem jMenuModificar;
-    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePerfiles;
     private javax.swing.JLabel lblCodigo;

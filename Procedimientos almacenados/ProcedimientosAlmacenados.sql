@@ -90,9 +90,9 @@ DELIMITER;
 DELIMITER $$
 
 DROP PROCEDURE IF EXISTS `erp`.`sp_ModificarUsuario` $$
-CREATE PROCEDURE `erp`.`sp_ModificarUsuario` (In _IdUsuarios int, In _IdPerfiles int, In _NombreUsuario varchar(50), In _Clave varchar(10))
+CREATE PROCEDURE `erp`.`sp_ModificarUsuario` (In _IdUsuarios int, In _IdPerfiles int, In _NombreUsuario varchar(50), IN _Clave varchar(10))
 BEGIN
-Update usuarios SET IdPerfiles=_IdPerfiles, NombreUsuario=_NombreUsuario, Clave= _Clave Where IdUsuarios = _IdUsuarios;
+Update usuarios SET IdPerfiles=_IdPerfiles, NombreUsuario=_NombreUsuario, Clave = _Clave Where IdUsuarios = _IdUsuarios;
 END $$
 
 DELIMITER;
@@ -138,7 +138,6 @@ insert into Bitacora (IdErroresERP, IdPerfiles, IdUsuarios, Timestamp, Accion) v
 END $$
 
 DELIMITER;
-
 
 
 
