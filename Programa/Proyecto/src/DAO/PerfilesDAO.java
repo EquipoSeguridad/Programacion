@@ -29,9 +29,9 @@ public class PerfilesDAO {
         try{
             String sql = "";
             if(opcion == 0) {
-                sql = "SELECT * FROM perfiles;";
+                sql = "Select IdPerfiles As ID, NombrePerfil AS Perfil from perfiles;";
             }else {
-                sql = "SELECT * FROM perfiles WHERE NombrePerfil LIKE '"+nombrePerf+"%';";
+                sql = "Select IdPerfiles As ID, NombrePerfil AS Perfil from perfiles where NombrePerfil LIKE '"+nombrePerf+"%';";
             }
             PreparedStatement pa = con.getConnection().prepareStatement(sql);
             result = pa.executeQuery();
