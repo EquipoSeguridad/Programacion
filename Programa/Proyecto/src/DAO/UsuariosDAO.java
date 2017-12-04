@@ -1,5 +1,6 @@
 package DAO;
 import BO.PerfilesBO;
+import BO.PersonalBO;
 import BO.UsuariosBO;
 import com.mysql.jdbc.ResultSetImpl;
 import java.sql.CallableStatement;
@@ -125,6 +126,47 @@ public class UsuariosDAO {
             }
         }
         return perfilesList;
+    }
+    
+    public ArrayList<PersonalBO> buscarPersonal(String Nombre) {
+        ArrayList<PersonalBO> personalList = new ArrayList<>();
+
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        PersonalBO personalBo;
+        String consulta = "";
+
+        if(Nombre.trim().equals("")) {
+            consulta = "select Clave, Concat(Nombre, ' ', ApellidoPaterno, ' ', ApellidoMaterno) As NombreC from personal ORDER BY NombreC ASC;";
+        }else {
+            consulta = "select Clave, Concat(Nombre, ' ', ApellidoPaterno, ' ', ApellidoMaterno) As NombreC from personal having NombreC Like '"+Nombre+"%' ORDER BY NombreC ASC;";
+        }
+        try {
+            if (con.getConnection() != null) {
+                statement = con.getConnection().prepareStatement(consulta);
+                result = statement.executeQuery();
+
+                while (result.next() == true) {
+                    personalBo = new PersonalBO();
+                    personalBo.setClave(result.getString("Clave"));
+                    personalBo.setNombre(result.getString("NombreC"));
+
+                    personalList.add(personalBo);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en la consulta de personal: " + e.getMessage());
+        } finally {
+            try {
+                //con.getConnection().close();
+
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        return personalList;
     }
     
     public ResultSet Lista(int idPerfil, String nombreUsu, String passw, int idPers, int opcion) throws SQLException {

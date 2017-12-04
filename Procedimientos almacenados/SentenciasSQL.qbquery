@@ -16,6 +16,22 @@ select * from personal;
 insert into personal(Clave, Nombre, ApellidoPaterno, ApellidoMaterno, Sexo, FechaNacimiento, NNS, RFC, EstadoCivil, NumeroContrato, FechaContrato, Puesto, Departamento, FechaSeguro, FechaAlta, FechaBaja, Sueldo, SalarioDiarioIntegrado, TipoContrato, Direccion, NumeroExterior, NumeroInterior, Delegacion, Colonia, Poblacion, Estado, Pais, CodigoPostal, Telefono, Correo, EstatusID, JornadaID)
 values(1, 'Andrés', 'Perez', 'Vazquez', 'Masculino', '1990/02/10', '211212312', 'APV373he2', 'Soltero', '001', '2005/10/08', 'Obrero', 'Manufacturera', '2017/09/16', '2005/10/18', null, 250, 1250, 'Escrito', 'C 29 x 32 y 34', '10', '', 'LindaVista', 'Villas madero', 'Mérida', 'Yucatán', 'México', '98000', '9889765431', 'andrsV@gmail.com', 1, 1);
 
+insert into personal(Clave, Nombre, ApellidoPaterno, ApellidoMaterno, Sexo, FechaNacimiento, NNS, RFC, EstadoCivil, NumeroContrato, FechaContrato, Puesto, Departamento, FechaSeguro, FechaAlta, FechaBaja, Sueldo, SalarioDiarioIntegrado, TipoContrato, Direccion, NumeroExterior, NumeroInterior, Delegacion, Colonia, Poblacion, Estado, Pais, CodigoPostal, Telefono, Correo, EstatusID, JornadaID)
+values(3, 'Julia', 'Mesa', 'Gonzáles', 'Femenino', '1990/02/10', '211212312', 'APV373he2', 'Soltero', '001', '2005/10/08', 'Obrero', 'Manufacturera', '2017/09/16', '2005/10/18', null, 250, 1250, 'Escrito', 'C 29 x 32 y 34', '10', '', 'LindaVista', 'Villas madero', 'Mérida', 'Yucatán', 'México', '98000', '9889765431', 'andrsV@gmail.com', 1, 1);
+
+insert into personal(Clave, Nombre, ApellidoPaterno, ApellidoMaterno, Sexo, FechaNacimiento, NNS, RFC, EstadoCivil, NumeroContrato, FechaContrato, Puesto, Departamento, FechaSeguro, FechaAlta, FechaBaja, Sueldo, SalarioDiarioIntegrado, TipoContrato, Direccion, NumeroExterior, NumeroInterior, Delegacion, Colonia, Poblacion, Estado, Pais, CodigoPostal, Telefono, Correo, EstatusID, JornadaID)
+values(2, 'Zack', 'Rubio', 'Martinez', 'Masculino', '1990/02/10', '211212312', 'APV373he2', 'Soltero', '001', '2005/10/08', 'Obrero', 'Manufacturera', '2017/09/16', '2005/10/18', null, 250, 1250, 'Escrito', 'C 29 x 32 y 34', '10', '', 'LindaVista', 'Villas madero', 'Mérida', 'Yucatán', 'México', '98000', '9889765431', 'andrsV@gmail.com', 1, 1);
+
+insert into personal(Clave, Nombre, ApellidoPaterno, ApellidoMaterno, Sexo, FechaNacimiento, NNS, RFC, EstadoCivil, NumeroContrato, FechaContrato, Puesto, Departamento, FechaSeguro, FechaAlta, FechaBaja, Sueldo, SalarioDiarioIntegrado, TipoContrato, Direccion, NumeroExterior, NumeroInterior, Delegacion, Colonia, Poblacion, Estado, Pais, CodigoPostal, Telefono, Correo, EstatusID, JornadaID)
+values(4, 'Antonio', 'Molina', 'Gutierrez', 'Masculino', '1990/02/10', '211212312', 'APV373he2', 'Soltero', '001', '2005/10/08', 'Obrero', 'Manufacturera', '2017/09/16', '2005/10/18', null, 250, 1250, 'Escrito', 'C 29 x 32 y 34', '10', '', 'LindaVista', 'Villas madero', 'Mérida', 'Yucatán', 'México', '98000', '9889765431', 'andrsV@gmail.com', 1, 1);
+
+insert into personal(Clave, Nombre, ApellidoPaterno, ApellidoMaterno, Sexo, FechaNacimiento, NNS, RFC, EstadoCivil, NumeroContrato, FechaContrato, Puesto, Departamento, FechaSeguro, FechaAlta, FechaBaja, Sueldo, SalarioDiarioIntegrado, TipoContrato, Direccion, NumeroExterior, NumeroInterior, Delegacion, Colonia, Poblacion, Estado, Pais, CodigoPostal, Telefono, Correo, EstatusID, JornadaID)
+values(5, 'Andrea', 'Iturbide', 'Rivero', 'Femenino', '1990/02/10', '211212312', 'APV373he2', 'Soltero', '001', '2005/10/08', 'Obrero', 'Manufacturera', '2017/09/16', '2005/10/18', null, 250, 1250, 'Escrito', 'C 29 x 32 y 34', '10', '', 'LindaVista', 'Villas madero', 'Mérida', 'Yucatán', 'México', '98000', '9889765431', 'andrsV@gmail.com', 1, 1);
+
+insert into personal(Clave, Nombre, ApellidoPaterno, ApellidoMaterno, Sexo, FechaNacimiento, NNS, RFC, EstadoCivil, NumeroContrato, FechaContrato, Puesto, Departamento, FechaSeguro, FechaAlta, FechaBaja, Sueldo, SalarioDiarioIntegrado, TipoContrato, Direccion, NumeroExterior, NumeroInterior, Delegacion, Colonia, Poblacion, Estado, Pais, CodigoPostal, Telefono, Correo, EstatusID, JornadaID)
+values(6, 'Andrea', 'Iñarritu', 'Mendez', 'Femenino', '1990/02/10', '211212312', 'APV373he2', 'Soltero', '001', '2005/10/08', 'Obrero', 'Manufacturera', '2017/09/16', '2005/10/18', null, 250, 1250, 'Escrito', 'C 29 x 32 y 34', '10', '', 'LindaVista', 'Villas madero', 'Mérida', 'Yucatán', 'México', '98000', '9889765431', 'andrsV@gmail.com', 1, 1);
+
+
 select * from usuarios;
 select * from usuarios where IdPerfiles=1 or NombreUsuario Like 'A%' or Hashcontra Like 'A%' or Clave =1;
 Insert into usuarios(IdPerfiles, NombreUsuario, Hashcontra, Clave) values (1, 'AndV90', 'sdbajsb717', 1);
@@ -30,6 +46,5 @@ insert into ErroresERP (Timestamp, Descripcion) values ('2017/11/28 17:45:00', '
 
 select * from Bitacora;
 insert into Bitacora (IdErroresERP, IdPerfiles, IdUsuarios, Timestamp, Accion) values (1, 1, 1, now(), 'Inicio de sesion');
-
 
 
