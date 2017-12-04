@@ -12,15 +12,15 @@ import java.util.logging.Logger;
  */
 public class Conexion {
     static String usuario = "root";
-    static String pass = "54321";
-    static String Db = "erp";
-    static String url = "jdbc:mysql://localhost/" + Db;
+    static String contra = "";
+    static String bd = "erp";
+    static String url = "jdbc:mysql://localhost/" + bd;
     static Connection con = null;
     
     public Conexion () throws SQLException{
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection(url, usuario, pass);
+            con = DriverManager.getConnection(url, usuario, contra);
             if(con == null) {
                 System.out.println("Error en la conexión a la base de datos.");
             }

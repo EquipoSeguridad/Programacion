@@ -449,8 +449,8 @@ public final class frmUsuarios extends javax.swing.JFrame {
         String passw = objUsuBo.encriptarContrasena(txtContrasena.getText().trim());
         try{
             objUsuBo.setTipoUser(Integer.parseInt(lblCodPerf.getText().trim()));
-            objUsuBo.setUsuario(txtusuario.getText().trim());
-            objUsuBo.setPassw(passw);
+            objUsuBo.setNombreUsuario(txtusuario.getText().trim());
+            objUsuBo.setHashContra(passw);
             objUsuBo.setClaveEmp(lblClave.getText().trim());
             
             objUsuDao.AgregarUsuario(objUsuBo);
@@ -464,10 +464,10 @@ public final class frmUsuarios extends javax.swing.JFrame {
     
     public boolean Modificar() {
         try{
-            objUsuBo.setId_user(Integer.parseInt(lblUserID.getText().trim()));
+            objUsuBo.setIdUsuario(Integer.parseInt(lblUserID.getText().trim()));
             objUsuBo.setTipoUser(Integer.parseInt(lblCodPerf.getText().trim()));
-            objUsuBo.setUsuario(txtusuario.getText().trim());
-            //objUsuBo.setPassw(objUsuBo.encriptarContrasena(txtContrasena.getText().trim()));
+            objUsuBo.setNombreUsuario(txtusuario.getText().trim());
+            //objUsuBo.setHashContra(objUsuBo.encriptarContrasena(txtContrasena.getText().trim()));
             objUsuBo.setClaveEmp(lblClave.getText().trim());
             
             objUsuDao.Modificarusuarios(objUsuBo);
@@ -481,7 +481,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
     
     public boolean Eliminar(int codUser) {
         try{
-            objUsuBo.setId_user(codUser);
+            objUsuBo.setIdUsuario(codUser);
             
             objUsuDao.EliminarUsuario(objUsuBo);
             return true;
