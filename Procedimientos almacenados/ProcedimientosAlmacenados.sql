@@ -7,19 +7,22 @@ CREATE PROCEDURE `erp`.`sp_ValidarUsuario` (
   IN _NombreUsuario Varchar(50),
   IN _HashContra Varchar(50),
   OUT _idPerfiles int,
-  OUT _idUsuarios int )
+  OUT _idUsuarios int,
+  OUT _TokenSesion VARCHAR(8) ) -- token de la sesión
 BEGIN
   SET _idPerfiles = -1;
   SET _idUsuarios = -1;
-  IF ( EXISTS( SELECT idPerfiles FROM usuarios WHERE NombreUsuario=_NombreUsuario AND HashContra = _HashContra))
+  IF ( EXISTS( SELECT idUsuarios FROM usuarios WHERE NombreUsuario = _NombreUsuario AND HashContra = _HashContra) )
   THEN
       SET _idPerfiles = (Select idPerfiles from usuarios where NombreUsuario=_NombreUsuario AND HashContra = _HashContra);
-      SET _idUsuarios = (Select idUsuarios from usuarios where NombreUsuario=_NombreUsuario AND HashContra = _HashContra);
+      SET _idUsuarios = ( Select idUsuarios from usuarios where NombreUsuario = _NombreUsuario AND HashContra = _HashContra );
+      SET _TokenSesion = ( SELECT SUBSTRING( MD5( RAND() ) FROM 1 FOR 8) AS token_sesion );
 
 END IF;
 END $$
 
 DELIMITER;
+
 
 #Procedimiento para buscar el nombre de un perfil
 DELIMITER $$

@@ -10,10 +10,12 @@ import javax.crypto.spec.SecretKeySpec;
  * @author MANUEL
  */
 public class UsuariosBO {
-    private int id_user;
-    private String Usuario;
-    private String passw;
+    private int idUsuario;
+    private String nombreUsuario;
+    private String hashContra;
     private String claveEmp;
+    private int tipoUser;
+    private String tokenSesion; 
 
     public String getClaveEmp() {
         return claveEmp;
@@ -22,30 +24,29 @@ public class UsuariosBO {
     public void setClaveEmp(String claveEmp) {
         this.claveEmp = claveEmp;
     }
-    private int tipoUser;
 
-    public int getId_user() {
-        return id_user;
+    public int getIdUsuario() {
+        return idUsuario;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public String getUsuario() {
-        return Usuario;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public void setUsuario(String Usuario) {
-        this.Usuario = Usuario;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
-    public String getPassw() {
-        return passw;
+    public String getHashContra() {
+        return hashContra;
     }
 
-    public void setPassw(String passw) {
-        this.passw = passw;
+    public void setHashContra(String hashContra) {
+        this.hashContra = DigestUtils.sha1Hex(hashContra);
     }
 
     public int getTipoUser() {
@@ -59,5 +60,17 @@ public class UsuariosBO {
     public String encriptarContrasena(String pasw) {
         String passwSHA=DigestUtils.sha1Hex(pasw);
         return passwSHA;
+    }    
+    
+    public String getContraCifrada() {
+        return DigestUtils.sha1Hex(hashContra);
+    }
+    
+    public String getTokenSesion() {
+        return tokenSesion;
+    }
+    
+    public void setTokenSesion(String tokenSesion) {
+        this.tokenSesion = tokenSesion;
     }
 }
