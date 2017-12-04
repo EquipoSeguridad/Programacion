@@ -50,9 +50,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        jMenuModificar = new javax.swing.JMenuItem();
-        jMenuEliminar = new javax.swing.JMenuItem();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -77,22 +74,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
         jcmbPersonal = new javax.swing.JComboBox<>();
         lblClave = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JButton();
-
-        jMenuModificar.setText("Modificar");
-        jMenuModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuModificarActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(jMenuModificar);
-
-        jMenuEliminar.setText("Eliminar");
-        jMenuEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuEliminarActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(jMenuEliminar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Usuarios");
@@ -127,7 +108,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTableUsuarios.setComponentPopupMenu(jPopupMenu1);
         jTableUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jTableUsuariosMousePressed(evt);
@@ -280,28 +260,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
         cont++;
     }//GEN-LAST:event_JCmbPerfilesItemStateChanged
 
-    private void jMenuModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuModificarActionPerformed
-        // TODO add your handling code here:
-        int fila = jTableUsuarios.getSelectedRow();//Obtiene el indice de la fila
-        if(fila >=0) {//Verifica que se haya seleccionado una fila
-            //chkEditar.setEnabled(true);
-            editar = true;//Activa la opcion de editar
-            btnCancelar.setEnabled(true);//Activa el boton de cancelar
-            btnBuscar.setEnabled(false);//Bloquea el boton de busar
-            lblUserID.setText(jTableUsuarios.getValueAt(fila, 0).toString());//obtiene el código del usuario
-            txtusuario.setText(jTableUsuarios.getValueAt(fila, 1).toString());//Muestra el nombre del perfil seleccionado
-            txtContrasena.setText(jTableUsuarios.getValueAt(fila, 2).toString());//obtiene la contra del perfil
-            contraG = txtContrasena.getText();
-            txtContrasena.setEditable(false);
-            lblCodPerf.setText(jTableUsuarios.getValueAt(fila, 3).toString());//obtiene el codigo del perfil
-            lblClave.setText(jTableUsuarios.getValueAt(fila, 4).toString());//obtiene el código del empleao
-            String empl = objUsuDao.buscarEmp(Integer.parseInt(lblClave.getText()));
-            txtEmpleado.setText(empl);
-        }else {
-            JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
-        }
-    }//GEN-LAST:event_jMenuModificarActionPerformed
-
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         if(verificarCampos() == false) {
@@ -333,27 +291,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void jMenuEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuEliminarActionPerformed
-        // TODO add your handling code here:
-        try {
-            int fila = jTableUsuarios.getSelectedRow();
-            if(fila >=0) {
-                
-                int resp = JOptionPane.showConfirmDialog(null, "¿Seguro que desea eliminar el registro seleccionado?");
-                if(JOptionPane.OK_OPTION == resp) {
-                    if(Eliminar(Integer.parseInt(jTableUsuarios.getValueAt(fila, 0).toString()))) {//Obtiene el id para eliminar
-                        JOptionPane.showMessageDialog(null, "Datos eliminados correctamente!!!");
-                    }
-                }
-            }else {
-                JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
-            }
-            Listado(0,"","",0, 0);
-        }catch(Exception err) {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar el registro...");
-        }
-    }//GEN-LAST:event_jMenuEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
@@ -654,9 +591,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JMenuItem jMenuEliminar;
-    private javax.swing.JMenuItem jMenuModificar;
-    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableUsuarios;
     private javax.swing.JComboBox<String> jcmbPersonal;

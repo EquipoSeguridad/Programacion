@@ -175,9 +175,9 @@ public class UsuariosDAO {
         try{
             String sql = "";
             if(opcion == 0) {
-                sql = "SELECT IdUsuarios, NombreUsuario,  Hashcontra, IdPerfiles, Clave FROM usuarios;";
+                sql = "SELECT IdUsuarios As ID, NombreUsuario AS Usuario,  Hashcontra As Contraseña, IdPerfiles As Perfil, Clave As Empleado FROM usuarios;";
             }else {
-                sql = "select * from usuarios where IdPerfiles="+ idPerfil+" or NombreUsuario Like '"+ nombreUsu +"%' or Clave ="+ idPers+";";
+                sql = "SELECT IdUsuarios As ID, NombreUsuario AS Usuario,  Hashcontra As Contraseña, IdPerfiles As Perfil, Clave As Empleado FROM usuarios where IdPerfiles="+ idPerfil+" or NombreUsuario Like '"+ nombreUsu +"%' or Clave="+ idPers+";";
             }
             PreparedStatement pa = con.getConnection().prepareStatement(sql);
             result = pa.executeQuery();
