@@ -1,8 +1,8 @@
 package DAO;
+
 import BO.PerfilesBO;
 import BO.PersonalBO;
 import BO.UsuariosBO;
-import com.mysql.jdbc.ResultSetImpl;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,29 +29,7 @@ public class UsuariosDAO {
         }
     }
 
-    public int ValidarUsuario(String user, String passw) {
-        int resultado = -1;
-        try {
-            // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
-            CallableStatement proc = con.getConnection().prepareCall("CALL sp_ValidarUsuario(?,?,?,?,?);");
-            //se cargan los parametros de entrada
-            proc.setString("_NombreUsuario", user);//Tipo String
-            proc.setString("_HashContra", passw);//Tipo String
-            // parametros de salida
-            proc.registerOutParameter("_idPerfiles", Types.VARCHAR);//Tipo int
-            proc.registerOutParameter("_idUsuarios", Types.VARCHAR);//Tipo int
-            proc.registerOutParameter("_TokenSesion", Types.VARCHAR);//Tipo String
-            // Se ejecuta el procedimiento almacenado
-            proc.execute();
-                // devuelve el valor del parametro de salida del procedimiento
-            resultado = proc.getInt("_idPerfiles");
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return resultado;
-    }
-    
-    public void ValidarUsuario2(UsuariosBO usuario) {
+    public void ValidarUsuario(UsuariosBO usuario) {
         try {
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
             CallableStatement cStmt = con.getConnection().prepareCall("{CALL sp_ValidarUsuario(?,?,?,?,?)}");
@@ -64,7 +42,7 @@ public class UsuariosDAO {
             cStmt.registerOutParameter("_TokenSesion", Types.VARCHAR);//Tipo String
             // Se ejecuta el procedimiento almacenado
             boolean hasResults = cStmt.execute();
-            usuario.setTipoUser(cStmt.getInt(3));
+            usuario.setIdPerfil(cStmt.getInt(3));
             usuario.setIdUsuario(cStmt.getInt(4));
             usuario.setTokenSesion(cStmt.getString(5));
         } catch (SQLException e) {
@@ -194,7 +172,7 @@ public class UsuariosDAO {
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
             CallableStatement proc = con.getConnection().prepareCall("CALL sp_AgregarUsuario(?,?,?,?);");
             //se cargan los parametros de entrada
-            proc.setInt("_IdPerfiles", objUBO.getTipoUser());//Tipo String
+            proc.setInt("_IdPerfiles", objUBO.getIdPerfil());//Tipo String
             proc.setString("_NombreUsuario", objUBO.getNombreUsuario());//Tipo String
             proc.setString("_HashContra", objUBO.getHashContra());//Tipo String
             proc.setString("_Clave", objUBO.getClaveEmp());//Tipo String
@@ -218,7 +196,7 @@ public class UsuariosDAO {
             CallableStatement proc = con.getConnection().prepareCall("CALL sp_ModificarUsuario(?,?,?,?);");
             //se cargan los parametros de entrada
             proc.setInt("_IdUsuarios", obUPBO.getIdUsuario());
-            proc.setInt("_IdPerfiles", obUPBO.getTipoUser());//Tipo String
+            proc.setInt("_IdPerfiles", obUPBO.getIdPerfil());//Tipo String
             proc.setString("_NombreUsuario", obUPBO.getNombreUsuario());//Tipo String
             //proc.setString("_HashContra", obUPBO.getHashContra());//Tipo String
             proc.setString("_Clave", obUPBO.getClaveEmp());//Tipo String

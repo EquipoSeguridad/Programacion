@@ -2,15 +2,28 @@ package Forms;
 
 import BO.UsuariosBO;
 import DAO.UsuariosDAO;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 /**
  *
  * @author md
  */
 public class dlgIniciarSesion extends javax.swing.JDialog {
-    private UsuariosDAO usuarioDAO;
-    private UsuariosBO usuario;
+    private boolean usuarioValidado;
+    private final UsuariosDAO usuarioDAO;
+    private final UsuariosBO usuario;
+    private final Font placeHolderFont, userInputFont;
+    private final Color placeHolderFontColor, userInputFontColor;
+    //private final ActionListener actionListener;
+    //private final KeyStroke stroke;
     
     /**
      * Creates new form dlgIniciarSesion
@@ -19,9 +32,36 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
      */
     public dlgIniciarSesion(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        usuarioValidado = false;
         usuarioDAO = new UsuariosDAO();
         usuario = new UsuariosBO();
+        placeHolderFont = new Font("Segoe UI", 2, 14);
+        placeHolderFontColor = new Color(153, 153, 153);
+        userInputFont = new Font("Segoe UI", 0, 14);
+        userInputFontColor = new Color(0, 0, 0);
         initComponents();
+        
+//        Action esc_action = new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent actionEvent) {
+//                btnCancelarActionPerformed(actionEvent);
+//            }
+//        };
+//        KeyStroke esc = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+//        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+//            esc, "dispose");
+//        getRootPane().getActionMap().put("dispose", esc_action);
+//        
+//        Action enter_action = new AbstractAction() {
+//            @Override
+//            public void actionPerformed(ActionEvent actionEvent) {
+//                btnCancelarActionPerformed(actionEvent);
+//            }
+//        };
+//        KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+//        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+//            enter, "login");
+//        getRootPane().getActionMap().put("login", enter_action);
     }
 
     /**
@@ -33,33 +73,61 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtusuario = new javax.swing.JTextField();
-        txtPassw = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        lblIniciarSesion = new javax.swing.JLabel();
+        lblImagenAut = new javax.swing.JLabel();
+        lblImgUsuario = new javax.swing.JLabel();
+        lblImgContra = new javax.swing.JLabel();
+        txtUsuario = new javax.swing.JTextField();
+        txtContra = new javax.swing.JTextField();
         btnEntrar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Iniciar sesión");
         setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        setLocation(new java.awt.Point(200, 200));
         setName("dlgIniciarSesion"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(400, 260));
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel1.setText("Usuario:");
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel2.setText("Contraseña:");
+        lblIniciarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblIniciarSesion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblIniciarSesion.setText("Iniciar sesión");
 
-        txtusuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblImagenAut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblImagenAut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/usuario.png"))); // NOI18N
 
-        txtPassw.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblImgUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/us.png"))); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel3.setText("Iniciar Sesion");
+        lblImgContra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/ke.png"))); // NOI18N
+
+        txtUsuario.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        txtUsuario.setForeground(new java.awt.Color(153, 153, 153));
+        txtUsuario.setText("Usuario");
+        txtUsuario.setCaretPosition(0);
+        txtUsuario.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtUsuarioFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtUsuarioFocusLost(evt);
+            }
+        });
+
+        txtContra.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        txtContra.setForeground(new java.awt.Color(153, 153, 153));
+        txtContra.setText("Contraseña");
+        txtContra.setCaretPosition(0);
+        txtContra.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtContraFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtContraFocusLost(evt);
+            }
+        });
 
         btnEntrar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEntrar.setText("Entrar");
@@ -77,46 +145,71 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
             }
         });
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblImgUsuario)
+                            .addComponent(lblImgContra))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtContra, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtUsuario)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblImagenAut)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(lblIniciarSesion)))))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblImagenAut)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblIniciarSesion)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblImgUsuario)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblImgContra))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtusuario)
-                    .addComponent(txtPassw)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel3)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2)
-                    .addComponent(txtPassw, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -125,16 +218,18 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
         // TODO add your handling code here:
         if(verificarDatos()) {
-            usuario.setNombreUsuario(txtusuario.getText());
-            usuario.setHashContra(txtPassw.getText().trim());
-            usuarioDAO.ValidarUsuario2(usuario);
+            usuario.setNombreUsuario(txtUsuario.getText());
+            usuario.setHashContra(util.SHA1.cifrarContra(txtContra.getText().trim()));
+            usuarioDAO.ValidarUsuario(usuario);
             
             //Checar si el usuario fue validado
             //La Id -1 se asigna a usuarios no válidos
             if( usuario.getIdUsuario() != -1 ) {
+                usuarioValidado = true;
                 limpiarCampos();
                 this.dispose();
             } else {
+                usuarioValidado = false;
                 JOptionPane.showMessageDialog(this, "El usuario no existe.", "Información", JOptionPane.INFORMATION_MESSAGE);
             }
         } else {
@@ -147,8 +242,40 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void txtUsuarioFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusGained
+        if ( txtUsuario.getText().equals("Usuario") ) {
+            txtUsuario.setText("");
+            txtUsuario.setFont(userInputFont);
+            txtUsuario.setForeground(userInputFontColor);
+        }
+    }//GEN-LAST:event_txtUsuarioFocusGained
+
+    private void txtUsuarioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsuarioFocusLost
+        if ( txtUsuario.getText().equals("") ) {
+            txtUsuario.setText("Usuario");
+            txtUsuario.setFont(placeHolderFont);
+            txtUsuario.setForeground(placeHolderFontColor);
+        }
+    }//GEN-LAST:event_txtUsuarioFocusLost
+
+    private void txtContraFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtContraFocusGained
+        if ( txtContra.getText().equals("Contraseña") ) {
+            txtContra.setText("");
+            txtContra.setFont(userInputFont);
+            txtContra.setForeground(userInputFontColor);
+        }
+    }//GEN-LAST:event_txtContraFocusGained
+
+    private void txtContraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtContraFocusLost
+        if ( txtContra.getText().equals("") ) {
+            txtContra.setText("Contraseña");
+            txtContra.setFont(placeHolderFont);
+            txtContra.setForeground(placeHolderFontColor);
+        }
+    }//GEN-LAST:event_txtContraFocusLost
+
     public boolean verificarDatos() {
-        if(txtusuario.getText().trim().equals("") || txtPassw.getText().trim().equals("")) {
+        if(txtUsuario.getText().trim().equals("") || txtContra.getText().trim().equals("")) {
             return false;
         }else {
             return true;
@@ -156,21 +283,27 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
     }
     
     public void limpiarCampos() {
-        txtusuario.setText("");
-        txtPassw.setText("");
+        txtUsuario.setText("");
+        txtContra.setText("");
+    }
+    
+    public boolean isUsuarioValidado() {
+        return usuarioValidado;
     }
     
     public UsuariosBO getUsuario() {
         return usuario;
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEntrar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtPassw;
-    private javax.swing.JTextField txtusuario;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblImagenAut;
+    private javax.swing.JLabel lblImgContra;
+    private javax.swing.JLabel lblImgUsuario;
+    private javax.swing.JLabel lblIniciarSesion;
+    private javax.swing.JTextField txtContra;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

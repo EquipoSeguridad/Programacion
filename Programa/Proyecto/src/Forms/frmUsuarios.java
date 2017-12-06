@@ -487,9 +487,9 @@ public final class frmUsuarios extends javax.swing.JFrame {
     }
     
     public boolean Guardar() {
-        String passw = objUsuBo.encriptarContrasena(txtContrasena.getText().trim());
+        String passw = util.SHA1.cifrarContra(txtContrasena.getText().trim());
         try{
-            objUsuBo.setTipoUser(Integer.parseInt(lblCodPerf.getText().trim()));
+            objUsuBo.setIdPerfil(Integer.parseInt(lblCodPerf.getText().trim()));
             objUsuBo.setNombreUsuario(txtusuario.getText().trim());
             objUsuBo.setHashContra(passw);
             objUsuBo.setClaveEmp(lblClave.getText().trim());
@@ -506,7 +506,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
     public boolean Modificar() {
         try{
             objUsuBo.setIdUsuario(Integer.parseInt(lblUserID.getText().trim()));
-            objUsuBo.setTipoUser(Integer.parseInt(lblCodPerf.getText().trim()));
+            objUsuBo.setIdPerfil(Integer.parseInt(lblCodPerf.getText().trim()));
             objUsuBo.setNombreUsuario(txtusuario.getText().trim());
             //objUsuBo.setHashContra(objUsuBo.encriptarContrasena(txtContrasena.getText().trim()));
             objUsuBo.setClaveEmp(lblClave.getText().trim());

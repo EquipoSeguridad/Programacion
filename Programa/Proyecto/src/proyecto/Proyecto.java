@@ -30,7 +30,11 @@ public class Proyecto {
         /*String textoSinEncriptar="sergio"; 
         String textoEncriptadoConSHA=DigestUtils.sha1Hex(textoSinEncriptar); 
         System.out.println("Texto Encriptado con SHA: "+textoEncriptadoConSHA);*/
-        System.out.println(userDAO.encriptarContrasena("AlbertoEmmanuelCamposUC79"));
+        System.out.println(util.SHA1.cifrarContra("AlbertoEmmanuelCamposUC79"));
+        System.out.println("contra: asd, hash SHA1:" + util.SHA1.cifrarContra("asd"));
+        System.out.println("contra: asdasd, hash SHA1:" + util.SHA1.cifrarContra("asdasd"));
+        System.out.println("contra: qwe, hash SHA1:" + util.SHA1.cifrarContra("qwe"));
+        System.out.println("contra: qweqwe, hash SHA1:" + util.SHA1.cifrarContra("qweqwe"));
     }
     
 }

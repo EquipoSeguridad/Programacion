@@ -1,10 +1,5 @@
 package BO;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import java.security.MessageDigest;
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
 /**
  *
  * @author MANUEL
@@ -14,7 +9,7 @@ public class UsuariosBO {
     private String nombreUsuario;
     private String hashContra;
     private String claveEmp;
-    private int tipoUser;
+    private int idPerfil;
     private String tokenSesion; 
 
     public String getClaveEmp() {
@@ -46,24 +41,15 @@ public class UsuariosBO {
     }
 
     public void setHashContra(String hashContra) {
-        this.hashContra = DigestUtils.sha1Hex(hashContra);
+        this.hashContra = hashContra;
     }
 
-    public int getTipoUser() {
-        return tipoUser;
+    public int getIdPerfil() {
+        return idPerfil;
     }
 
-    public void setTipoUser(int tipoUser) {
-        this.tipoUser = tipoUser;
-    }
-    
-    public String encriptarContrasena(String pasw) {
-        String passwSHA=DigestUtils.sha1Hex(pasw);
-        return passwSHA;
-    }    
-    
-    public String getContraCifrada() {
-        return DigestUtils.sha1Hex(hashContra);
+    public void setIdPerfil(int tipoUser) {
+        this.idPerfil = tipoUser;
     }
     
     public String getTokenSesion() {
