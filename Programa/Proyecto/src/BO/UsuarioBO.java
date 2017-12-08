@@ -4,12 +4,13 @@ package BO;
  *
  * @author MANUEL
  */
-public class UsuariosBO {
+public class UsuarioBO {
     private int idUsuario;
     private String nombreUsuario;
     private String hashContra;
     private String claveEmp;
     private int idPerfil;
+    private String NomPerfil;
     private String tokenSesion; 
 
     public String getClaveEmp() {
@@ -58,5 +59,13 @@ public class UsuariosBO {
     
     public void setTokenSesion(String tokenSesion) {
         this.tokenSesion = tokenSesion;
+    }
+    
+    public String getNomPerfil() {
+        return NomPerfil;
+    }
+    
+    public void setNomPerfil(String NomPerfil) {
+        this.NomPerfil = NomPerfil;
     }
 }

@@ -2,10 +2,8 @@ package Forms;
 
 import BO.PerfilesBO;
 import BO.PersonalBO;
-import BO.UsuariosBO;
-import DAO.UsuariosDAO;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import BO.UsuarioBO;
+import DAO.UsuarioDAO;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -17,28 +15,51 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author MANUEL
+ * @author md
  */
-public final class frmUsuarios extends javax.swing.JFrame {
+public class dlgUsuarios extends javax.swing.JDialog {
+    private UsuarioBO objUsuBo;
+    private PersonalBO objPersBo;
+    private int[] idsPerf;
+    private String[] idsPerso;
+    private ArrayList <PerfilesBO> listaPerfiles;
+    private ArrayList <PersonalBO> listaPersonal;
+    private int cont;
+    private int contd;
+    private boolean editar;
+    private boolean mostrarDat;
+    private String claveSelec;
+    private String contraG;
 
     /**
-     * Creates new form frmUsuarios
+     * Creates new form dlgUsuarios
+     * @param parent
+     * @param modal
      */
-    public frmUsuarios() {
+    public dlgUsuarios(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        
+        objUsuBo = new UsuarioBO();
+        objPersBo = new PersonalBO();
+        listaPerfiles = UsuarioDAO.getInstance().consultarPerfiles();
+        cont = 0;
+        contd = 0;
+        editar = false;
+        mostrarDat = false;
+        claveSelec = "";
+        contraG = "";
+        
         initComponents();
-        this.setLocationRelativeTo(null);
-        Listado(0, "", "", 0, 0);//Trae todos los registros
+        
+        listarUsuarios(0, "", "", 0, 0);//Trae todos los registros
         lblCodPerf.setVisible(false);
         lblUserID.setVisible(false);
         lblClave.setVisible(false);
-        //txtEmpleado.setEditable(false);
-        //chkEditar.setEnabled(false);
         mostrarPerfiles();//Muestra los perfiles en el combobox
         mostrarPersonal("");//Muestra el personal en el combobox
         setTextFieldChanged(txtEmpleado);
         lblCodPerf.setText("1");
         lblClave.setText("0");
-        btnEliminar.setEnabled(false);
     }
 
     /**
@@ -50,15 +71,17 @@ public final class frmUsuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txtusuario = new javax.swing.JTextField();
+        jcmbPersonal = new javax.swing.JComboBox<>();
+        txtContrasena = new javax.swing.JTextField();
+        lblClave = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        JCmbPerfiles = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtEmpleado = new javax.swing.JTextField();
-        txtusuario = new javax.swing.JTextField();
-        txtContrasena = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        JCmbPerfiles = new javax.swing.JComboBox<>();
-        lblCodPerf = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUsuarios = new JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -70,26 +93,36 @@ public final class frmUsuarios extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        lblCodPerf = new javax.swing.JLabel();
         lblUserID = new javax.swing.JLabel();
-        jcmbPersonal = new javax.swing.JComboBox<>();
-        lblClave = new javax.swing.JLabel();
-        btnEliminar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Usuarios");
-        setResizable(false);
+        setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        setLocation(new java.awt.Point(200, 200));
+        setName("dlgUsuarios"); // NOI18N
 
-        jLabel1.setText("Empleado:");
+        txtusuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        jLabel2.setText("Usuario:");
+        jcmbPersonal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jcmbPersonal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcmbPersonal.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcmbPersonalItemStateChanged(evt);
+            }
+        });
 
-        jLabel3.setText("Contraseña:");
-
+        txtContrasena.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtContrasena.setAutoscrolls(false);
         txtContrasena.setMaximumSize(new java.awt.Dimension(20, 10));
 
+        lblClave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lblClave.setText("jLabel5");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Perfil:");
 
+        JCmbPerfiles.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         JCmbPerfiles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         JCmbPerfiles.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -97,6 +130,22 @@ public final class frmUsuarios extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setText("Empleado:");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Usuario:");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Contraseña:");
+
+        txtEmpleado.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icond.png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
+
+        jTableUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jTableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -115,6 +164,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableUsuarios);
 
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icong.png"))); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -123,6 +173,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
             }
         });
 
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icons.png"))); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +182,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
             }
         });
 
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/iconca.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -139,115 +191,112 @@ public final class frmUsuarios extends javax.swing.JFrame {
             }
         });
 
-        jcmbPersonal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jcmbPersonal.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jcmbPersonalItemStateChanged(evt);
-            }
-        });
-
-        lblClave.setText("jLabel5");
-
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icond.png"))); // NOI18N
-        btnEliminar.setText("Eliminar");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblClave))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(272, 272, 272)
-                        .addComponent(lblUserID))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 13, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jcmbPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnGuardar)
-                .addGap(27, 27, 27)
-                .addComponent(btnBuscar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEliminar)
-                .addGap(27, 27, 27)
-                .addComponent(btnCancelar)
-                .addGap(30, 30, 30))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lblCodPerf, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel2)))
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                    .addComponent(txtusuario)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcmbPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblClave)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnGuardar)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnBuscar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(btnEliminar)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnCancelar)
+                        .addGap(7, 7, 7)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcmbPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(9, 9, 9)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblClave)))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel3))
-                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
-                .addComponent(lblUserID)
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(jLabel4))
-                    .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar)
-                            .addComponent(btnCancelar)
-                            .addComponent(btnEliminar)))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(jcmbPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblClave, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblCodPerf, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnGuardar)
+                        .addComponent(btnCancelar)
+                        .addComponent(btnEliminar))
+                    .addComponent(btnBuscar))
                 .addGap(12, 12, 12)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jcmbPersonalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcmbPersonalItemStateChanged
+        // TODO add your handling code here:
+        if(jcmbPersonal.getItemCount() > 0) {
+            int select = jcmbPersonal.getSelectedIndex();
+            if(contd == 0) {
+                lblClave.setText("0");
+            }else {
+
+                if(select == 0) {
+                    lblClave.setText("0");
+                }else {
+                    lblClave.setText("" + idsPerso[select - 1]);
+                }
+            }
+            contd++;
+        }
+    }//GEN-LAST:event_jcmbPersonalItemStateChanged
 
     private void JCmbPerfilesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JCmbPerfilesItemStateChanged
         // TODO add your handling code here:
@@ -260,6 +309,35 @@ public final class frmUsuarios extends javax.swing.JFrame {
         cont++;
     }//GEN-LAST:event_JCmbPerfilesItemStateChanged
 
+    private void jTableUsuariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuariosMousePressed
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            int fila = jTableUsuarios.getSelectedRow();//Obtiene el indice de la fila
+            if(fila >=0) {//Verifica que se haya seleccionado una fila
+                mostrarDat = true;
+                editar = true;//Activa la opcion de editar
+                btnCancelar.setEnabled(true);//Activa el boton de cancelar
+                btnBuscar.setEnabled(false);//Bloquea el boton de busar
+                lblUserID.setText(jTableUsuarios.getValueAt(fila, 0).toString());//obtiene el código del usuario
+                txtusuario.setText(jTableUsuarios.getValueAt(fila, 1).toString());//Muestra el nombre del perfil seleccionado
+                txtContrasena.setText(jTableUsuarios.getValueAt(fila, 2).toString());//obtiene la contra del perfil
+                contraG = txtContrasena.getText();
+                txtContrasena.setEditable(false);
+                lblCodPerf.setText(jTableUsuarios.getValueAt(fila, 3).toString());//obtiene el codigo del perfil
+                lblClave.setText(jTableUsuarios.getValueAt(fila, 4).toString());//obtiene el código del empleao
+                claveSelec = jTableUsuarios.getValueAt(fila, 4).toString();
+                String empl = UsuarioDAO.getInstance().buscarEmp(Integer.parseInt(lblClave.getText()));
+                txtEmpleado.setText(empl);
+
+                bloquearCamposEntrada();
+                btnEliminar.setEnabled(true);
+                btnGuardar.setText("Modificar");
+            }else {
+                JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
+            }
+        }
+    }//GEN-LAST:event_jTableUsuariosMousePressed
+
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         if(verificarCampos() == false) {
@@ -268,9 +346,9 @@ public final class frmUsuarios extends javax.swing.JFrame {
             if(editar == false) {
                 if(Guardar()) {
                     JOptionPane.showMessageDialog(null, "Registro agregado correctamente!!!");
-                    Listado(0, "", "", 0, 0);//Actualiza los registros que se muestran
+                    listarUsuarios(0, "", "", 0, 0);//Actualiza los registros que se muestran
                     resetearCampos();
-                    
+
                 }else {
                     JOptionPane.showMessageDialog(null, "Ocurrió un error al agregar el perfil!");
                 }
@@ -282,7 +360,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
                 }else {
                     if(Modificar()) {
                         JOptionPane.showMessageDialog(null, "Registro modificado correctamente!!!");
-                        Listado(0, "", "", 0, 0);//Actualiza los registros que se muestran
+                        listarUsuarios(0, "", "", 0, 0);//Actualiza los registros que se muestran
                         resetearCampos();
                     }else {
                         JOptionPane.showMessageDialog(null, "Ocurrió un error al modificar el perfil!");
@@ -295,9 +373,9 @@ public final class frmUsuarios extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         if(txtEmpleado.getText().trim().equals("") && txtusuario.getText().trim().equals("") && txtContrasena.getText().trim().equals("")) {
-            Listado(0, "", "", 0, 0);
+            listarUsuarios(0, "", "", 0, 0);
         }else {
-            Listado(Integer.parseInt(lblCodPerf.getText().trim()), txtusuario.getText().trim(), "", Integer.parseInt(lblClave.getText().trim()), 1);
+            listarUsuarios(Integer.parseInt(lblCodPerf.getText().trim()), txtusuario.getText().trim(), "", Integer.parseInt(lblClave.getText().trim()), 1);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -306,54 +384,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
         resetearCampos();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void jcmbPersonalItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcmbPersonalItemStateChanged
-        // TODO add your handling code here:
-        if(jcmbPersonal.getItemCount() > 0) {
-        int select = jcmbPersonal.getSelectedIndex();
-            if(contd == 0) {
-                lblClave.setText("0");
-            }else {
-                
-                if(select == 0) {
-                    lblClave.setText("0");
-                }else {
-                    lblClave.setText("" + idsPerso[select - 1]);
-                }
-            }
-            contd++;
-            }
-    }//GEN-LAST:event_jcmbPersonalItemStateChanged
-
-    private void jTableUsuariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuariosMousePressed
-        // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
-            int fila = jTableUsuarios.getSelectedRow();//Obtiene el indice de la fila
-                if(fila >=0) {//Verifica que se haya seleccionado una fila
-                    mostrarDat = true;
-                    editar = true;//Activa la opcion de editar
-                    btnCancelar.setEnabled(true);//Activa el boton de cancelar
-                    btnBuscar.setEnabled(false);//Bloquea el boton de busar
-                    lblUserID.setText(jTableUsuarios.getValueAt(fila, 0).toString());//obtiene el código del usuario
-                    txtusuario.setText(jTableUsuarios.getValueAt(fila, 1).toString());//Muestra el nombre del perfil seleccionado
-                    txtContrasena.setText(jTableUsuarios.getValueAt(fila, 2).toString());//obtiene la contra del perfil
-                    contraG = txtContrasena.getText();
-                    txtContrasena.setEditable(false);
-                    lblCodPerf.setText(jTableUsuarios.getValueAt(fila, 3).toString());//obtiene el codigo del perfil
-                    lblClave.setText(jTableUsuarios.getValueAt(fila, 4).toString());//obtiene el código del empleao
-                    claveSelec = jTableUsuarios.getValueAt(fila, 4).toString();
-                    String empl = objUsuDao.buscarEmp(Integer.parseInt(lblClave.getText()));
-                    txtEmpleado.setText(empl);
-                    
-                    bloquearCamposEntrada();
-                    btnEliminar.setEnabled(true);
-                    btnGuardar.setText("Modificar");
-                }else {
-                    JOptionPane.showMessageDialog(null, "Porfavor seleccione una fila...");
-                }
-        }
-    }//GEN-LAST:event_jTableUsuariosMousePressed
-
-    int i = 0;
     private void setTextFieldChanged(JTextField txt) {
         DocumentListener documentL = new DocumentListener() {
             @Override
@@ -392,41 +422,6 @@ public final class frmUsuarios extends javax.swing.JFrame {
         txt.getDocument().addDocumentListener(documentL);
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmUsuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new frmUsuarios().setVisible(true);
-            }
-        });
-    }
-    
     private void mostrarPerfiles() {
         JCmbPerfiles.removeAllItems();
         idsPerf = new int[listaPerfiles.size()];
@@ -438,7 +433,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
     }
     
     private void mostrarPersonal(String Nombre) {
-        listaPersonal = objUsuDao.buscarPersonal(Nombre);
+        listaPersonal = UsuarioDAO.getInstance().buscarPersonal(Nombre);
         jcmbPersonal.removeAllItems();
         jcmbPersonal.addItem("Seleccionar...");
         if(listaPersonal.size() > 0) {
@@ -459,10 +454,10 @@ public final class frmUsuarios extends javax.swing.JFrame {
         }
     }
     
-    public void Listado(int idPerfil, String nombreUsu, String passw, int idPers, int opcion) {
-        ResultSet result;
+    private void listarUsuarios(int idPerfil, String usuario, String contra, int idPersonal, int opcion) {
         try{
-            result = objUsuDao.Lista(idPerfil, nombreUsu, passw, idPers, opcion);
+            ResultSet result;
+            result = UsuarioDAO.getInstance().Lista(idPerfil, usuario, contra, idPersonal, opcion);
             DefaultTableModel modelo = new DefaultTableModel();
             this.jTableUsuarios.setModel(modelo);
             
@@ -494,7 +489,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
             objUsuBo.setHashContra(passw);
             objUsuBo.setClaveEmp(lblClave.getText().trim());
             
-            objUsuDao.AgregarUsuario(objUsuBo);
+            UsuarioDAO.getInstance().AgregarUsuario(objUsuBo);
             return true;
         }catch(Exception e) {
             //e.printStackTrace();
@@ -511,7 +506,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
             //objUsuBo.setHashContra(objUsuBo.encriptarContrasena(txtContrasena.getText().trim()));
             objUsuBo.setClaveEmp(lblClave.getText().trim());
             
-            objUsuDao.Modificarusuarios(objUsuBo);
+            UsuarioDAO.getInstance().Modificarusuarios(objUsuBo);
             return true;
         }catch(Exception e) {
             //e.printStackTrace();
@@ -524,7 +519,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
         try{
             objUsuBo.setIdUsuario(codUser);
             
-            objUsuDao.EliminarUsuario(objUsuBo);
+            UsuarioDAO.getInstance().EliminarUsuario(objUsuBo);
             return true;
         }catch(Exception e) {
             //e.printStackTrace();
@@ -576,7 +571,7 @@ public final class frmUsuarios extends javax.swing.JFrame {
         jcmbPersonal.setEnabled(true);
         
         cont = 0;
-        Listado(0, "", "", 0, 0);
+        listarUsuarios(0, "", "", 0, 0);
         claveSelec = "";
         mostrarDat = false;
     }
@@ -601,20 +596,4 @@ public final class frmUsuarios extends javax.swing.JFrame {
     public static javax.swing.JTextField txtEmpleado;
     private javax.swing.JTextField txtusuario;
     // End of variables declaration//GEN-END:variables
-    
-    
-    //Variables para conexion
-    UsuariosDAO objUsuDao = new UsuariosDAO();
-    UsuariosBO objUsuBo = new UsuariosBO();
-    PersonalBO objPersBo = new PersonalBO();
-    int[] idsPerf;
-    String[] idsPerso;
-    ArrayList < PerfilesBO > listaPerfiles = objUsuDao.consultarPerfiles();
-    ArrayList <PersonalBO> listaPersonal;
-    int cont = 0;
-    int contd = 0;
-    private boolean editar = false;
-    private boolean mostrarDat = false;
-    private String claveSelec = "";
-    String contraG = "";
 }

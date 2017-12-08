@@ -1,6 +1,6 @@
 package Forms;
 
-import BO.UsuariosBO;
+import BO.UsuarioBO;
 import javax.swing.JOptionPane;
 
 /**
@@ -9,14 +9,14 @@ import javax.swing.JOptionPane;
  */
 public class frmPrincipal extends javax.swing.JFrame {
     private final String titulo;
-    private UsuariosBO usuario;
+    private UsuarioBO usuario;
     
     /**
      * Creates new form frmMain
      */
     public frmPrincipal() {
         titulo = "ERP";
-        usuario = new UsuariosBO();
+        usuario = new UsuarioBO();
         usuario.setIdUsuario(-1);
         initComponents();
     }
@@ -39,11 +39,17 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenuArchivoItemAbrir = new javax.swing.JMenuItem();
         jMenuGestion = new javax.swing.JMenu();
         jMenuGestionItemPerfiles = new javax.swing.JMenuItem();
+        jMenuGestionItemUsuarios = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(this.titulo);
         setName("frmPrincipal"); // NOI18N
         setPreferredSize(new java.awt.Dimension(960, 540));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jMenuUsuario.setText("Usuario");
 
@@ -103,6 +109,15 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         jMenuGestion.add(jMenuGestionItemPerfiles);
 
+        jMenuGestionItemUsuarios.setText("Usuarios");
+        jMenuGestionItemUsuarios.setEnabled(false);
+        jMenuGestionItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestionItemUsuariosActionPerformed(evt);
+            }
+        });
+        jMenuGestion.add(jMenuGestionItemUsuarios);
+
         jMenuBarPrincipal.add(jMenuGestion);
 
         setJMenuBar(jMenuBarPrincipal);
@@ -122,7 +137,6 @@ public class frmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuUsuarioItemLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUsuarioItemLoginActionPerformed
-        // Mostrar diálogo de login...
         dlgIniciarSesion dlgSesion = new dlgIniciarSesion(this, true);
         dlgSesion.setVisible(true);
         
@@ -153,9 +167,84 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuUsuarioItemLogoutActionPerformed
 
     private void jMenuUsuarioItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUsuarioItemSalirActionPerformed
+        cerrarAplicacion();
+    }//GEN-LAST:event_jMenuUsuarioItemSalirActionPerformed
+
+    private void jMenuArchivoItemAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuArchivoItemAbrirActionPerformed
+        JOptionPane.showMessageDialog(this, "Acción realizada:\n" +
+                    "Archivo > Abrir archivo");
+    }//GEN-LAST:event_jMenuArchivoItemAbrirActionPerformed
+
+    private void jMenuGestionItemPerfilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestionItemPerfilesActionPerformed
+        dlgPerfiles dlgAdminPerfiles = new dlgPerfiles(this, true);
+        dlgAdminPerfiles.setVisible(true);
+    }//GEN-LAST:event_jMenuGestionItemPerfilesActionPerformed
+
+    private void jMenuGestionItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestionItemUsuariosActionPerformed
+        dlgUsuarios dlgAdminUsuarios = new dlgUsuarios(this, true);
+        dlgAdminUsuarios.setVisible(true);
+    }//GEN-LAST:event_jMenuGestionItemUsuariosActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        cerrarAplicacion();
+    }//GEN-LAST:event_formWindowClosing
+    
+    private void login() {
+        /*
+        * Código maqueta...
+        * Verificar los PERMISOS asociados al USUARIO logueado
+        * para activar las acciones permitidas
+        */
+        this.setTitle( usuario.getNombreUsuario() + "[" + usuario.getNomPerfil() + "]" + " @ " + titulo );
+        
+        // El menú USUARIO es el mismo para todos los usuarios
+        jMenuUsuarioItemLogin.setEnabled(false);
+        jMenuUsuarioItemLogout.setEnabled(true);
+        jMenuUsuarioItemSalir.setEnabled(true);
+        
+        // El menu ARCHIVO es el mismo para todos los usuarios
+        jMenuArchivo.setEnabled(true);
+        jMenuArchivoItemAbrir.setEnabled(true);
+        
+        // El menu GESTION sólo está disponible para usuarios tipo ADMINISTRADOR
+        if  ( usuario.getNomPerfil().equals(BO.Perfiles.Administrador.toString()) ) {
+            jMenuGestion.setEnabled(true);
+            jMenuGestionItemPerfiles.setEnabled(true);
+            jMenuGestionItemUsuarios.setEnabled(true);
+        } else {
+            jMenuGestion.setEnabled(false);
+            jMenuGestionItemPerfiles.setEnabled(false);
+            jMenuGestionItemUsuarios.setEnabled(false);
+        }
+    }
+    
+    private void logout() {        
+        /* 
+         * Modificar el panel de frmPrincipal...?
+         * Código maqueta...
+         * Desactivar las opciones que necesitan un usuario logueado
+         */
+        this.setTitle(titulo);
+        jMenuUsuarioItemLogin.setEnabled(true);
+        jMenuUsuarioItemLogout.setEnabled(false);
+        
+        jMenuUsuarioItemSalir.setEnabled(true);
+        
+        jMenuArchivo.setEnabled(false);
+        jMenuArchivoItemAbrir.setEnabled(false);
+        
+        jMenuGestion.setEnabled(false);
+        jMenuGestionItemPerfiles.setEnabled(false);
+        jMenuGestionItemUsuarios.setEnabled(false);
+        
+        usuario = new UsuarioBO();
+        usuario.setIdUsuario(-1);
+    }
+    
+    private void cerrarAplicacion() {
         if( usuario.getIdUsuario() != -1 ) { // -1 = Usuario no validado
             int eleccion = JOptionPane.showConfirmDialog(this, "Para cerrar la aplicación,\n" +
-                "su sesión debe ser cerrada.\n¿Desea cerrar su sesión y la aplicación?",
+                "su sesión debe ser cerrada.\n\n¿Desea cerrar su sesión y la aplicación?",
                 "Sesión abierta en ERP", JOptionPane.OK_CANCEL_OPTION);
             if ( eleccion == JOptionPane.OK_OPTION ) {
                 // Cerrar sesión
@@ -171,48 +260,6 @@ public class frmPrincipal extends javax.swing.JFrame {
                 dispose();
             }
         }
-    }//GEN-LAST:event_jMenuUsuarioItemSalirActionPerformed
-
-    private void jMenuArchivoItemAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuArchivoItemAbrirActionPerformed
-        JOptionPane.showMessageDialog(this, "Acción realizada:\n" +
-                    "Archivo > Abrir archivo");
-    }//GEN-LAST:event_jMenuArchivoItemAbrirActionPerformed
-
-    private void jMenuGestionItemPerfilesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestionItemPerfilesActionPerformed
-        dlgPerfiles dlgAdminPerfiles = new dlgPerfiles(this, true);
-        dlgAdminPerfiles.setVisible(true);
-    }//GEN-LAST:event_jMenuGestionItemPerfilesActionPerformed
-    
-    private void login() {
-        /*
-        * Código maqueta...
-        * Verificar los PERMISOS asociados al USUARIO logueado
-        * para activar las acciones permitidas
-        */
-        this.setTitle( usuario.getNombreUsuario() + " @ " + titulo );
-        jMenuUsuarioItemLogin.setEnabled(false);
-        jMenuUsuarioItemLogout.setEnabled(true);
-        jMenuArchivo.setEnabled(true);
-        jMenuUsuarioItemSalir.setEnabled(true);
-        jMenuGestion.setEnabled(true);
-        jMenuGestionItemPerfiles.setEnabled(true);
-    }
-    
-    private void logout() {        
-        /* 
-         * Modificar el panel de frmPrincipal...?
-         * Código maqueta...
-         * Desactivar las opciones que necesitan un usuario logueado
-         */
-        this.setTitle(titulo);
-        jMenuUsuarioItemLogin.setEnabled(true);
-        jMenuUsuarioItemLogout.setEnabled(false);
-        jMenuArchivo.setEnabled(false);
-        jMenuUsuarioItemSalir.setEnabled(false);
-        jMenuGestion.setEnabled(false);
-        jMenuGestionItemPerfiles.setEnabled(false);
-        usuario = new UsuariosBO();
-        usuario.setIdUsuario(-1);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -221,6 +268,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBarPrincipal;
     private javax.swing.JMenu jMenuGestion;
     private javax.swing.JMenuItem jMenuGestionItemPerfiles;
+    private javax.swing.JMenuItem jMenuGestionItemUsuarios;
     private javax.swing.JMenu jMenuUsuario;
     private javax.swing.JMenuItem jMenuUsuarioItemLogin;
     private javax.swing.JMenuItem jMenuUsuarioItemLogout;

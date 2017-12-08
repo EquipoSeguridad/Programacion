@@ -1,16 +1,10 @@
 package Forms;
 
-import BO.UsuariosBO;
-import DAO.UsuariosDAO;
+import BO.UsuarioBO;
+import DAO.UsuarioDAO;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
 
 /**
  *
@@ -18,8 +12,7 @@ import javax.swing.KeyStroke;
  */
 public class dlgIniciarSesion extends javax.swing.JDialog {
     private boolean usuarioValidado;
-    private final UsuariosDAO usuarioDAO;
-    private final UsuariosBO usuario;
+    private final UsuarioBO usuario;
     private final Font placeHolderFont, userInputFont;
     private final Color placeHolderFontColor, userInputFontColor;
     //private final ActionListener actionListener;
@@ -33,8 +26,7 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
     public dlgIniciarSesion(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         usuarioValidado = false;
-        usuarioDAO = new UsuariosDAO();
-        usuario = new UsuariosBO();
+        usuario = new UsuarioBO();
         placeHolderFont = new Font("Segoe UI", 2, 14);
         placeHolderFontColor = new Color(153, 153, 153);
         userInputFont = new Font("Segoe UI", 0, 14);
@@ -220,7 +212,7 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
         if(verificarDatos()) {
             usuario.setNombreUsuario(txtUsuario.getText());
             usuario.setHashContra(util.SHA1.cifrarContra(txtContra.getText().trim()));
-            usuarioDAO.ValidarUsuario(usuario);
+            UsuarioDAO.getInstance().ValidarUsuario(usuario);
             
             //Checar si el usuario fue validado
             //La Id -1 se asigna a usuarios no válidos
@@ -291,7 +283,7 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
         return usuarioValidado;
     }
     
-    public UsuariosBO getUsuario() {
+    public UsuarioBO getUsuario() {
         return usuario;
     }
     

@@ -2,7 +2,7 @@ package DAO;
 
 import BO.PerfilesBO;
 import BO.PersonalBO;
-import BO.UsuariosBO;
+import BO.UsuarioBO;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,13 +14,21 @@ import java.util.ArrayList;
  *
  * @author MANUEL
  */
-public class UsuariosDAO {
-    //private UsuariosBO usuario;
+public class UsuarioDAO {
+    //private UsuarioBO usuario;
     //private PerfilesBO perfil;
     private Conexion con;
+    private static UsuarioDAO _instance;
+    
+    public static UsuarioDAO getInstance() {
+        if ( _instance == null ) {
+            _instance = new UsuarioDAO();
+        }
+        return _instance;
+    }
 
-    public UsuariosDAO() {
-        //usuario = new UsuariosBO();
+    private UsuarioDAO() {
+        //usuario = new UsuarioBO();
         //perfil = new PerfilesBO();
         try {
             con = new Conexion();
@@ -29,7 +37,7 @@ public class UsuariosDAO {
         }
     }
 
-    public void ValidarUsuario(UsuariosBO usuario) {
+    public void ValidarUsuario(UsuarioBO usuario) {
         try {
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
             CallableStatement cStmt = con.getConnection().prepareCall("{CALL sp_ValidarUsuario(?,?,?,?,?)}");
@@ -45,28 +53,29 @@ public class UsuariosDAO {
             usuario.setIdPerfil(cStmt.getInt(3));
             usuario.setIdUsuario(cStmt.getInt(4));
             usuario.setTokenSesion(cStmt.getString(5));
+            
+            BuscarPerfil(usuario);
+            
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
 
-    public String BuscarPerfil(int id_Perf) {
-        String perfil = "";
+    public void BuscarPerfil(UsuarioBO usuario) {
         try {
             // se crea instancia a procedimiento, los parametros de entrada y salida se simbolizan con el signo ?
             CallableStatement proc = con.getConnection().prepareCall("CALL sp_BuscarPerfil(?,?);");
             //se cargan los parametros de entrada
-            proc.setInt("_idPerfiles", id_Perf);//Tipo String
+            proc.setInt("_idPerfiles", usuario.getIdPerfil());//Tipo String
             // parametros de salida
             proc.registerOutParameter("_NombrePerfil", Types.VARCHAR);//Tipo String
             // Se ejecuta el procedimiento almacenado
             proc.execute();
             // devuelve el valor del parametro de salida del procedimiento
-            perfil = proc.getString("_NombrePerfil");
+            usuario.setNomPerfil( proc.getString("_NombrePerfil") );
         } catch (SQLException e) {
             System.out.println(e);
         }
-        return perfil;
     }
 
     public ArrayList<PerfilesBO> consultarPerfiles() {
@@ -165,7 +174,7 @@ public class UsuariosDAO {
         return result;
     }
     
-    public boolean AgregarUsuario(UsuariosBO objUBO)
+    public boolean AgregarUsuario(UsuarioBO objUBO)
    {
        boolean resultado = false;
        try {            
@@ -188,7 +197,7 @@ public class UsuariosDAO {
        return resultado;
    }
     
-    public boolean Modificarusuarios(UsuariosBO obUPBO)
+    public boolean Modificarusuarios(UsuarioBO obUPBO)
    {
        boolean resultado = false;
        try {            
@@ -212,7 +221,7 @@ public class UsuariosDAO {
        return resultado;
    }
     
-    public boolean EliminarUsuario(UsuariosBO objUBO)
+    public boolean EliminarUsuario(UsuarioBO objUBO)
    {
        boolean resultado = false;
        try {            

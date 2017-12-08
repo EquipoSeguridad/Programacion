@@ -1,8 +1,8 @@
 package proyecto;
 
-import BO.UsuariosBO;
+import BO.UsuarioBO;
 import DAO.PerfilesDAO;
-import DAO.UsuariosDAO;
+import DAO.UsuarioDAO;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -13,8 +13,8 @@ public class Proyecto {
 
     public static void main(String[] args) {
         // TODO code application logic here
-        UsuariosBO userDAO;
-        userDAO = new UsuariosBO();
+        UsuarioBO userDAO;
+        userDAO = new UsuarioBO();
         /*PerfilesDAO perfDAO = new PerfilesDAO();
         
         int respu = userDAO.ValidarUsuario("Mau97", "12345");
