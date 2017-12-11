@@ -41,7 +41,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
         
         objUsuBo = new UsuarioBO();
         objPersBo = new PersonalBO();
-        listaPerfiles = UsuarioDAO.getInstance().consultarPerfiles();
+        listaPerfiles = UsuarioDAO.consultarPerfiles();
         cont = 0;
         contd = 0;
         editar = false;
@@ -101,6 +101,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
         setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         setLocation(new java.awt.Point(200, 200));
         setName("dlgUsuarios"); // NOI18N
+        setResizable(false);
 
         txtusuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -144,6 +145,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icond.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
+        btnEliminar.setPreferredSize(new java.awt.Dimension(120, 40));
 
         jTableUsuarios.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jTableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
@@ -167,6 +169,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icong.png"))); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.setPreferredSize(new java.awt.Dimension(120, 40));
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -176,6 +179,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
         btnBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/icons.png"))); // NOI18N
         btnBuscar.setText("Buscar");
+        btnBuscar.setPreferredSize(new java.awt.Dimension(120, 40));
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -185,6 +189,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/iconca.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.setPreferredSize(new java.awt.Dimension(120, 40));
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -198,44 +203,44 @@ public class dlgUsuarios extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lblCodPerf, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel2)))
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-                                    .addComponent(txtusuario)))
+                                    .addComponent(lblCodPerf, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jcmbPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblClave)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnGuardar)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnBuscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                        .addComponent(btnEliminar)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnCancelar)
-                        .addGap(7, 7, 7)))
+                            .addComponent(lblClave))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -243,38 +248,38 @@ public class dlgUsuarios extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblCodPerf, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jcmbPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblClave, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(14, 14, 14)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblCodPerf, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblUserID, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnGuardar)
-                        .addComponent(btnCancelar)
-                        .addComponent(btnEliminar))
-                    .addComponent(btnBuscar))
-                .addGap(12, 12, 12)
+                            .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(lblClave))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JCmbPerfiles, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -292,6 +297,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
                     lblClave.setText("0");
                 }else {
                     lblClave.setText("" + idsPerso[select - 1]);
+                    //System.out.println(jcmbPersonal.getSelectedItem().toString());
                 }
             }
             contd++;
@@ -326,7 +332,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
                 lblCodPerf.setText(jTableUsuarios.getValueAt(fila, 3).toString());//obtiene el codigo del perfil
                 lblClave.setText(jTableUsuarios.getValueAt(fila, 4).toString());//obtiene el código del empleao
                 claveSelec = jTableUsuarios.getValueAt(fila, 4).toString();
-                String empl = UsuarioDAO.getInstance().buscarEmp(Integer.parseInt(lblClave.getText()));
+                String empl = UsuarioDAO.buscarEmp(Integer.parseInt(lblClave.getText()));
                 txtEmpleado.setText(empl);
 
                 bloquearCamposEntrada();
@@ -433,7 +439,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
     }
     
     private void mostrarPersonal(String Nombre) {
-        listaPersonal = UsuarioDAO.getInstance().buscarPersonal(Nombre);
+        listaPersonal = UsuarioDAO.buscarPersonal(Nombre);
         jcmbPersonal.removeAllItems();
         jcmbPersonal.addItem("Seleccionar...");
         if(listaPersonal.size() > 0) {
@@ -447,7 +453,9 @@ public class dlgUsuarios extends javax.swing.JDialog {
     }
     
     public boolean verificarCampos() {
-        if(txtEmpleado.getText().trim().equals("") || txtusuario.getText().trim().equals("") || txtContrasena.getText().trim().equals("") || jcmbPersonal.getSelectedIndex() == 0) {
+        if( txtusuario.getText().trim().equals("")    ||
+            txtContrasena.getText().trim().equals("") ||
+            jcmbPersonal.getSelectedIndex() == 0 ) {
             return false;
         }else {
             return true;
@@ -457,7 +465,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
     private void listarUsuarios(int idPerfil, String usuario, String contra, int idPersonal, int opcion) {
         try{
             ResultSet result;
-            result = UsuarioDAO.getInstance().Lista(idPerfil, usuario, contra, idPersonal, opcion);
+            result = UsuarioDAO.Lista(idPerfil, usuario, contra, idPersonal, opcion);
             DefaultTableModel modelo = new DefaultTableModel();
             this.jTableUsuarios.setModel(modelo);
             
@@ -489,7 +497,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
             objUsuBo.setHashContra(passw);
             objUsuBo.setClaveEmp(lblClave.getText().trim());
             
-            UsuarioDAO.getInstance().AgregarUsuario(objUsuBo);
+            UsuarioDAO.AgregarUsuario(objUsuBo);
             return true;
         }catch(Exception e) {
             //e.printStackTrace();
@@ -506,7 +514,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
             //objUsuBo.setHashContra(objUsuBo.encriptarContrasena(txtContrasena.getText().trim()));
             objUsuBo.setClaveEmp(lblClave.getText().trim());
             
-            UsuarioDAO.getInstance().Modificarusuarios(objUsuBo);
+            UsuarioDAO.Modificarusuarios(objUsuBo);
             return true;
         }catch(Exception e) {
             //e.printStackTrace();
@@ -519,7 +527,7 @@ public class dlgUsuarios extends javax.swing.JDialog {
         try{
             objUsuBo.setIdUsuario(codUser);
             
-            UsuarioDAO.getInstance().EliminarUsuario(objUsuBo);
+            UsuarioDAO.EliminarUsuario(objUsuBo);
             return true;
         }catch(Exception e) {
             //e.printStackTrace();

@@ -4,6 +4,7 @@ import BO.UsuarioBO;
 import DAO.UsuarioDAO;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,11 +13,10 @@ import javax.swing.JOptionPane;
  */
 public class dlgIniciarSesion extends javax.swing.JDialog {
     private boolean usuarioValidado;
+    private boolean contraEscrita;
     private final UsuarioBO usuario;
     private final Font placeHolderFont, userInputFont;
     private final Color placeHolderFontColor, userInputFontColor;
-    //private final ActionListener actionListener;
-    //private final KeyStroke stroke;
     
     /**
      * Creates new form dlgIniciarSesion
@@ -26,34 +26,13 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
     public dlgIniciarSesion(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         usuarioValidado = false;
+        contraEscrita = false;
         usuario = new UsuarioBO();
         placeHolderFont = new Font("Segoe UI", 2, 14);
         placeHolderFontColor = new Color(153, 153, 153);
         userInputFont = new Font("Segoe UI", 0, 14);
         userInputFontColor = new Color(0, 0, 0);
         initComponents();
-        
-//        Action esc_action = new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent actionEvent) {
-//                btnCancelarActionPerformed(actionEvent);
-//            }
-//        };
-//        KeyStroke esc = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-//        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-//            esc, "dispose");
-//        getRootPane().getActionMap().put("dispose", esc_action);
-//        
-//        Action enter_action = new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent actionEvent) {
-//                btnCancelarActionPerformed(actionEvent);
-//            }
-//        };
-//        KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
-//        getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-//            enter, "login");
-//        getRootPane().getActionMap().put("login", enter_action);
     }
 
     /**
@@ -71,9 +50,10 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
         lblImgUsuario = new javax.swing.JLabel();
         lblImgContra = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
-        txtContra = new javax.swing.JTextField();
         btnEntrar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        pssContra = new javax.swing.JPasswordField();
+        chkMostrarContra = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Iniciar sesión");
@@ -108,19 +88,6 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
             }
         });
 
-        txtContra.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        txtContra.setForeground(new java.awt.Color(153, 153, 153));
-        txtContra.setText("Contraseña");
-        txtContra.setCaretPosition(0);
-        txtContra.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtContraFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtContraFocusLost(evt);
-            }
-        });
-
         btnEntrar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnEntrar.setText("Entrar");
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
@@ -137,38 +104,62 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
             }
         });
 
+        pssContra.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        pssContra.setForeground(new java.awt.Color(153, 153, 153));
+        pssContra.setText("Contraseña");
+        pssContra.setCaretPosition(0);
+        pssContra.setEchoChar('\u0000');
+        pssContra.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                pssContraFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                pssContraFocusLost(evt);
+            }
+        });
+
+        chkMostrarContra.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        chkMostrarContra.setForeground(new java.awt.Color(153, 153, 153));
+        chkMostrarContra.setText("Mostrar");
+        chkMostrarContra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkMostrarContraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(43, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblImgUsuario)
                             .addComponent(lblImgContra))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtContra, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtUsuario)))
+                            .addComponent(txtUsuario)
+                            .addComponent(pssContra, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chkMostrarContra))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
+                        .addGap(91, 91, 91)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblImagenAut)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(lblIniciarSesion)))))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(lblImagenAut)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblIniciarSesion)
@@ -178,13 +169,15 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtContra, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblImgContra))
+                    .addComponent(lblImgContra)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(pssContra, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(chkMostrarContra)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -208,11 +201,10 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        // TODO add your handling code here:
         if(verificarDatos()) {
             usuario.setNombreUsuario(txtUsuario.getText());
-            usuario.setHashContra(util.SHA1.cifrarContra(txtContra.getText().trim()));
-            UsuarioDAO.getInstance().ValidarUsuario(usuario);
+            usuario.setHashContra(util.SHA1.cifrarContra(charArrayToString(pssContra.getPassword()).trim()));
+            UsuarioDAO.ValidarUsuario(usuario);
             
             //Checar si el usuario fue validado
             //La Id -1 se asigna a usuarios no válidos
@@ -250,24 +242,35 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtUsuarioFocusLost
 
-    private void txtContraFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtContraFocusGained
-        if ( txtContra.getText().equals("Contraseña") ) {
-            txtContra.setText("");
-            txtContra.setFont(userInputFont);
-            txtContra.setForeground(userInputFontColor);
+    private void pssContraFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pssContraFocusGained
+        if ( charArrayToString(pssContra.getPassword()).equals("Contraseña") ) {
+            pssContra.setEchoChar('\u25cf'); // Unicode black circle (U+25CF)
+            pssContra.setText("");
+            pssContra.setFont(userInputFont);
+            pssContra.setForeground(userInputFontColor);
         }
-    }//GEN-LAST:event_txtContraFocusGained
+    }//GEN-LAST:event_pssContraFocusGained
 
-    private void txtContraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtContraFocusLost
-        if ( txtContra.getText().equals("") ) {
-            txtContra.setText("Contraseña");
-            txtContra.setFont(placeHolderFont);
-            txtContra.setForeground(placeHolderFontColor);
+    private void pssContraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pssContraFocusLost
+        if ( charArrayToString(pssContra.getPassword()).equals("") ) {
+            pssContra.setEchoChar('\u0000'); // Unicode null (U+0000)
+            pssContra.setText("Contraseña");
+            pssContra.setFont(placeHolderFont);
+            pssContra.setForeground(placeHolderFontColor);
         }
-    }//GEN-LAST:event_txtContraFocusLost
+    }//GEN-LAST:event_pssContraFocusLost
+
+    private void chkMostrarContraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMostrarContraActionPerformed
+        if ( chkMostrarContra.isSelected() ) {
+            pssContra.setEchoChar('\u0000'); // Unicode null (U+0000)
+        } else {
+            pssContra.setEchoChar('\u25cf'); // Unicode black circle (U+25CF)
+        }
+        
+    }//GEN-LAST:event_chkMostrarContraActionPerformed
 
     public boolean verificarDatos() {
-        if(txtUsuario.getText().trim().equals("") || txtContra.getText().trim().equals("")) {
+        if(txtUsuario.getText().trim().equals("") || Arrays.toString(pssContra.getPassword()).trim().equals("")) {
             return false;
         }else {
             return true;
@@ -276,7 +279,11 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
     
     public void limpiarCampos() {
         txtUsuario.setText("");
-        txtContra.setText("");
+        pssContra.setText("");
+    }
+    
+    private String charArrayToString( char[] input ) {
+        return new String(input);
     }
     
     public boolean isUsuarioValidado() {
@@ -290,12 +297,13 @@ public class dlgIniciarSesion extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEntrar;
+    private javax.swing.JCheckBox chkMostrarContra;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblImagenAut;
     private javax.swing.JLabel lblImgContra;
     private javax.swing.JLabel lblImgUsuario;
     private javax.swing.JLabel lblIniciarSesion;
-    private javax.swing.JTextField txtContra;
+    private javax.swing.JPasswordField pssContra;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

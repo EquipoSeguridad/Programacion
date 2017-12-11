@@ -70,6 +70,12 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuGestionItemPerfiles">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+P"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Resources/ke.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Perfiles"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -79,6 +85,12 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuGestionItemUsuarios">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+U"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Resources/us.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Usuarios"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>

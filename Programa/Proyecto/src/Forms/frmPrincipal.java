@@ -100,6 +100,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenuGestion.setText("Gestión");
         jMenuGestion.setEnabled(false);
 
+        jMenuGestionItemPerfiles.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuGestionItemPerfiles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/ke.png"))); // NOI18N
         jMenuGestionItemPerfiles.setText("Perfiles");
         jMenuGestionItemPerfiles.setEnabled(false);
         jMenuGestionItemPerfiles.addActionListener(new java.awt.event.ActionListener() {
@@ -109,6 +111,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         jMenuGestion.add(jMenuGestionItemPerfiles);
 
+        jMenuGestionItemUsuarios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuGestionItemUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/us.png"))); // NOI18N
         jMenuGestionItemUsuarios.setText("Usuarios");
         jMenuGestionItemUsuarios.setEnabled(false);
         jMenuGestionItemUsuarios.addActionListener(new java.awt.event.ActionListener() {
