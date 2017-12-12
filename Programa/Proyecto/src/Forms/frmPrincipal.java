@@ -40,6 +40,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenuGestion = new javax.swing.JMenu();
         jMenuGestionItemPerfiles = new javax.swing.JMenuItem();
         jMenuGestionItemUsuarios = new javax.swing.JMenuItem();
+        jMenuGestionItemBitácora = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(this.titulo);
@@ -122,6 +123,16 @@ public class frmPrincipal extends javax.swing.JFrame {
         });
         jMenuGestion.add(jMenuGestionItemUsuarios);
 
+        jMenuGestionItemBitácora.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuGestionItemBitácora.setText("Bitácora");
+        jMenuGestionItemBitácora.setEnabled(false);
+        jMenuGestionItemBitácora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuGestionItemBitácoraActionPerformed(evt);
+            }
+        });
+        jMenuGestion.add(jMenuGestionItemBitácora);
+
         jMenuBarPrincipal.add(jMenuGestion);
 
         setJMenuBar(jMenuBarPrincipal);
@@ -185,13 +196,18 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuGestionItemPerfilesActionPerformed
 
     private void jMenuGestionItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestionItemUsuariosActionPerformed
-        dlgUsuarios dlgAdminUsuarios = new dlgUsuarios(this, true);
+        dlgUsuarios2 dlgAdminUsuarios = new dlgUsuarios2(this, true);
         dlgAdminUsuarios.setVisible(true);
     }//GEN-LAST:event_jMenuGestionItemUsuariosActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         cerrarAplicacion();
     }//GEN-LAST:event_formWindowClosing
+
+    private void jMenuGestionItemBitácoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuGestionItemBitácoraActionPerformed
+        dlgBitacora dlgAdminBitacora = new dlgBitacora(this, true);
+        dlgAdminBitacora.setVisible(true);
+    }//GEN-LAST:event_jMenuGestionItemBitácoraActionPerformed
     
     private void login() {
         /*
@@ -215,10 +231,12 @@ public class frmPrincipal extends javax.swing.JFrame {
             jMenuGestion.setEnabled(true);
             jMenuGestionItemPerfiles.setEnabled(true);
             jMenuGestionItemUsuarios.setEnabled(true);
+            jMenuGestionItemBitácora.setEnabled(true);
         } else {
             jMenuGestion.setEnabled(false);
             jMenuGestionItemPerfiles.setEnabled(false);
             jMenuGestionItemUsuarios.setEnabled(false);
+            jMenuGestionItemBitácora.setEnabled(false);
         }
     }
     
@@ -240,6 +258,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jMenuGestion.setEnabled(false);
         jMenuGestionItemPerfiles.setEnabled(false);
         jMenuGestionItemUsuarios.setEnabled(false);
+        jMenuGestionItemBitácora.setEnabled(false);
         
         usuario = new UsuarioBO();
         usuario.setIdUsuario(-1);
@@ -271,6 +290,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuArchivoItemAbrir;
     private javax.swing.JMenuBar jMenuBarPrincipal;
     private javax.swing.JMenu jMenuGestion;
+    private javax.swing.JMenuItem jMenuGestionItemBitácora;
     private javax.swing.JMenuItem jMenuGestionItemPerfiles;
     private javax.swing.JMenuItem jMenuGestionItemUsuarios;
     private javax.swing.JMenu jMenuUsuario;
